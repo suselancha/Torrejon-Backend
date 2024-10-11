@@ -20,6 +20,7 @@ class EmployeeFunctionController extends Controller
                 return [
                     "id" => $employee_function->id,
                     "name" => $employee_function->name,
+                    "state" => $employee_function->state,
                     "created_format_at" => $employee_function->created_at->format("Y-m-d h:i A")
                 ];
             }),
@@ -41,6 +42,7 @@ class EmployeeFunctionController extends Controller
             "employee_function" => [
                 "id" => $employee_function->id,
                 "name" => $employee_function->name,
+                "state" => $employee_function->state ?? 1,
                 "created_format_at" => $employee_function->created_at->format("Y-m-d h:i A")
             ],
         ]);
@@ -63,6 +65,7 @@ class EmployeeFunctionController extends Controller
             "employee_function" => [
                 "id" => $employee_function->id,
                 "name" => $employee_function->name,
+                "state" => $employee_function->state ?? 1,
                 "created_format_at" => $employee_function->created_at->format("Y-m-d h:i A")
             ],
         ]);
