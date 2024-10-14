@@ -5,6 +5,7 @@ use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Configuration\ClientSegmentController;
 use App\Http\Controllers\Configuration\EmployeeFunctionController;
 use App\Http\Controllers\Configuration\ZonaController;
+use App\Http\Controllers\RolePermissionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,7 +38,10 @@ Route::group([
 
 Route::group([
     'middleware' => 'auth:api',
+    'prefix' => 'auth'
 ], function ($router) {
+    Route::resource('roles', RolePermissionController::class);
+
     Route::resource('employee_functions', EmployeeFunctionController::class);
     Route::resource('client_segments', ClientSegmentController::class);
     Route::resource('zonas', ZonaController::class);

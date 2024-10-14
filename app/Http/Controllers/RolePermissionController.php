@@ -15,17 +15,16 @@ class RolePermissionController extends Controller
     {
         $search = $request->search;
 
-        $roles = Role::with(['permissions'])->where('name', 'like', '%'.$search.'%')->orderBy('id', 'desc')->paginate(25);
+        $roles = Role::with(["permissions"])->where('name', 'like', '%'.$search.'%')->orderBy('id', 'desc')->paginate(25);
 
-        return response()
-            ->json([
-                'total' => $roles->total(),
-                'roles' => $roles->map(function($rol){
-                    $rol->permissions_pluck = $rol->permissions->pluck('name');
-                    $rol->created_format_at = $rol->created_at->format('Y-m-d h:i A');
-                    return $rol;
-                }),
-            ]);
+        return response()->json([
+            'total' => $roles->total(),
+            'roles' => $roles->map(function($rol){
+                $rol->permissions_pluck = $rol->permissions->pluck('name');
+                $rol->created_format_at = $rol->created_at->format('Y-m-d h:i A');
+                return $rol;
+            }),
+        ]);
     }
 
     /**
@@ -39,11 +38,10 @@ class RolePermissionController extends Controller
 
         if ($IS_ROLE)
         {
-            return response()
-                ->json([
-                    'message' => 403,
-                    'message_text' => "El rol ya existe."
-                ]);
+            return response()->json([
+                'message' => 403,
+                'message_text' => "El rol ya existe."
+            ]);
         }
 
         $role = Role::create([
@@ -52,21 +50,19 @@ class RolePermissionController extends Controller
         ]);
 
         foreach ($request->permissions as $key => $permission) {
-
-                $role->givePermissionTo($permission);                        
+            $role->givePermissionTo($permission);                        
         }
 
-        return response()
-            ->json([
-                'message' => 200,
-                'role' => [
-                    'id' => $role->id,
-                    'permissions' => $role->permissions,
-                    'permissions_pluck' => $role->permissions->pluck('name'),
-                    'created_format_at' => $role->created_at->format('Y-m-d h:i A'),
-                    'name' => $role->name,
-                ]
-            ]);
+        return response()->json([
+            'message' => 200,
+            'role' => [
+                'id' => $role->id,
+                'permission' => $role->permissions,
+                'permission_pluck' => $role->permissions->pluck('name'),
+                'created_format_at' => $role->created_at->format('Y-m-d h:i A'),
+                'name' => $role->name,
+            ]
+        ]);
     }
 
     /**
@@ -98,23 +94,20 @@ class RolePermissionController extends Controller
                 ]);
         }
 
-        $role = Role::findOrFail($request->id);
-
+        $role = Role::findOrFail($id);
         $role->update($request->all());
-
         $role->syncPermissions($request->permissions);
 
-        return response()
-            ->json([
-                'message' => 200,
-                'role' => [
-                    'id' => $role->id,
-                    'permissions' => $role->permissions,
-                    'permissions_pluck' => $role->permissions->pluck('name'),
-                    'created_format_at' => $role->created_at->format('Y-m-d h:i A'),
-                    'name' => $role->name,
-                ]
-            ]);
+        return response()->json([
+            'message' => 200,
+            'role' => [
+                'id' => $role->id,
+                'permission' => $role->permissions,
+                'permission_pluck' => $role->permissions->pluck('name'),
+                'created_format_at' => $role->created_at->format('Y-m-d h:i A'),
+                'name' => $role->name,
+            ]
+        ]);
     }
 
     /**
@@ -123,62 +116,12 @@ class RolePermissionController extends Controller
     public function destroy(string $id)
     {
         $role = Role::findOrFail($id);
+        // TODO: validacion por usuarios
+        $role->delete();
 
-        $userCount = User::with('roles')->get()->filter(
-            fn ($user) => $user->roles->where('name', $role->name)->toArray()
-        )->count();
-        
-        if ($userCount > 0)
-        {
-            return response()
-                ->json([
-                    'message' => 400,
-                    'message_text' => "El rol no puede ser eliminado, tiene usuarios asociados."
-                ]);
-        }
-        
-        if ($role->delete())
-        {
-            return response()
-                ->json([
-                    'message' => 200,
-                    'message_text' => "El rol fue eliminado."
-                ]);
-        }
-        else{
-            return response()
-                ->json([
-                    'message' => 400,
-                    'message_text' => "El rol no puedo ser eliminado."
-                ]);
-        }
+        return response()->json([
+            'message' => 200,
+        ]);
         
     }
-
-    public function assign(Request $request)
-    {
-        $user = User::find($request->user_id);
-
-        $user->assignRole($request->role_name);
-
-        return response()
-            ->json([
-                'message' => 200,
-                'message_text' => "El rol fue asignado."
-            ]);
-    }
-
-    public function remove(Request $request)
-    {
-        $user = User::find($request->user_id);
-
-        $user->removeRole($request->role_name);
-
-        return response()
-            ->json([
-                'message' => 200,
-                'message_text' => "El rol fue revocado."
-            ]);
-    }
-
 }
