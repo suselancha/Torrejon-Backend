@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Client\ClientController;
+use App\Http\Controllers\Configuration\ClientSegmentController;
 use App\Http\Controllers\Configuration\EmployeeFunctionController;
+use App\Http\Controllers\Configuration\ZonaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,7 +36,11 @@ Route::group([
 });
 
 Route::group([
-    //'middleware' => 'auth:api',
+    'middleware' => 'auth:api',
 ], function ($router) {
     Route::resource('employee_functions', EmployeeFunctionController::class);
+    Route::resource('client_segments', ClientSegmentController::class);
+    Route::resource('zonas', ZonaController::class);
+
+    Route::resource('clients', ClientController::class);
 });
