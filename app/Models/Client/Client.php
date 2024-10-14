@@ -3,16 +3,19 @@
 namespace App\Models\Client;
 
 use App\Models\Configuration\ClientSegment;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Client extends Model
 {
     use HasFactory;
     use SoftDeletes;
     protected $fillable = [
+        "code",
         "surname",
         "name",
         "full_name",
@@ -24,7 +27,14 @@ class Client extends Model
         "type_document",
         "n_document",
         "address",
+        "user_id",
         "state",
+        "ubigeo_provincia",
+        "ubigeo_departamento",
+        "ubigeo_localidad",
+        "provincia",
+        "departamento",
+        "localidad"
     ];
 
     public function setCreatedAtAttribute($value) {
@@ -39,5 +49,24 @@ class Client extends Model
 
     public function client_segment(){
         return $this->belongsTo(ClientSegment::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function scopeFilterAdvance($query, $search, $client_segment_id, $type){
+        if($search){
+            // Búsqueda múltiples campos
+            $query->where(DB::raw("CONCAT(clients.full_name,' ',IFNULL(clients.code,''),' ',clients.n_document)"),"like","%".$search."%");
+        }
+        if($client_segment_id){
+            $query->where("client_segment_id",$client_segment_id);
+        }
+        if($type){
+            $query->where("type",$type);
+        }
+
+        return $query;
     }
 }

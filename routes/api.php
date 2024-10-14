@@ -42,5 +42,7 @@ Route::group([
     Route::resource('client_segments', ClientSegmentController::class);
     Route::resource('zonas', ZonaController::class);
 
+    Route::post('clients/index', [ClientController::class, 'index']);
+    Route::get('clients/config', [ClientController::class, 'config']);
     Route::resource('clients', ClientController::class);
 });

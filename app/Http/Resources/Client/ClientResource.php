@@ -16,6 +16,7 @@ class ClientResource extends JsonResource
     {
         return [
             "id" => $this->resource->id,
+            "code" => $this->resource->code,
             "surname" => $this->resource->surname,
             "name" => $this->resource->name,
             "full_name" => $this->resource->full_name,
@@ -31,6 +32,13 @@ class ClientResource extends JsonResource
             "type_document" => $this->resource->type_document,
             "n_document" => $this->resource->n_document,
             "address" => $this->resource->address,
+            "user_id" => $this->resource->user_id,
+            "ubigeo_provincia" => $this->resource->ubigeo_provincia,
+            "ubigeo_departamento" => $this->resource->ubigeo_departamento,
+            "ubigeo_localidad" => $this->resource->ubigeo_localidad,
+            "provincia" => $this->resource->provincia,
+            "departamento" => $this->resource->departamento,
+            "localidad" => $this->resource->localidad,
             "state" => $this->resource->state,
             "created_format_at" => $this->resource->created_at->format("Y-m-d h:i A")
         ];
