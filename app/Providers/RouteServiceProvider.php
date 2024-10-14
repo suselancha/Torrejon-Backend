@@ -34,6 +34,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(function() {
                     require base_path('routes/api.php');
                     require base_path('routes/api/permission.php');
+                    require base_path('routes/api/access.php');
                 });
 
             Route::middleware('web')
