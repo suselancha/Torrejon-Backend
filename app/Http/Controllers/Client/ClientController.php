@@ -6,15 +6,23 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Client\ClientCollection;
 use App\Http\Resources\Client\ClientResource;
 use App\Models\Client\Client;
+use App\Models\Configuration\ClientSegment;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
     public function index(Request $request)
     {
-        $search = $request->get("search");
+        // Obtener valor via get
+        // $search = $request->get("search");
 
-        $clients = Client::where("full_name","like","%".$search."%")->orderBy("id","desc")->paginate(25);
+        // Obtener valor via post
+        $search = $request->search;
+        $client_segment_id = $request->client_segment_id;
+        $type = $request->type;
+
+        //where("full_name","like","%".$search."%")->
+        $clients = Client::filterAdvance($search,$client_segment_id,$type)->orderBy("id","desc")->paginate(25);
 
         return response()->json([
             "total" => $clients->total(),
@@ -22,8 +30,18 @@ class ClientController extends Controller
         ]);
     }
 
+    public function config()
+    {
+        $client_segments = ClientSegment::where("state",1)->get();
+
+        return response()->json([
+            "client_segments" => $client_segments
+        ]);
+    }
+
     public function store(Request $request)
     {
+        // TODO: FALTA VALIDAR POR DNI Y POR CODIGO
         $is_exits_client = Client::where("full_name",$request->full_name)->first();
         if($is_exits_client){
             return response()->json([
@@ -31,6 +49,7 @@ class ClientController extends Controller
                 "message_text" => "Los datos del cliente ya existe"
             ]);
         }
+        $request->request->add(["user_id" => auth()->user()->id]);
         $client = Client::create($request->all());
         return response()->json([
             "message" => 200,
