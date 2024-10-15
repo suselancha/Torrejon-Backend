@@ -12,7 +12,7 @@ class EmployeeFunctionController extends Controller
     {
         $search =$request->get("search");
 
-        $employee_functions = EmployeeFunction::where("name","like","%".$search."%")->orderBy("id","desc")->paginate(2);
+        $employee_functions = EmployeeFunction::where("name","like","%".$search."%")->orderBy("id","desc")->paginate(25);
 
         return response()->json([
             "total" => $employee_functions->total(),

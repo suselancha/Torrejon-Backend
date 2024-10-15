@@ -15,12 +15,12 @@ class RolePermissionController extends Controller
     {
         $search = $request->search;
 
-        $roles = Role::with(["permissions"])->where('name', 'like', '%'.$search.'%')->orderBy('id', 'desc')->paginate(25);
+        $roles = Role::with(["permissions"])->where('name', 'like', '%'.$search.'%')->orderBy('id', 'desc')->paginate(5);
 
         return response()->json([
             'total' => $roles->total(),
             'roles' => $roles->map(function($rol){
-                $rol->permissions_pluck = $rol->permissions->pluck('name');
+                $rol->permission_pluck = $rol->permissions->pluck('name');
                 $rol->created_format_at = $rol->created_at->format('Y-m-d h:i A');
                 return $rol;
             }),
