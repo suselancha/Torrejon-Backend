@@ -11,7 +11,7 @@ class PermissionsDemoSeeder extends Seeder
 {
     /**
      * Create the initial roles and permissions.
-     *
+     * Ejecuta con: php artisan migrate:fresh --seed --seeder=PermissionsDemoSeeder
      * @return void
      */
     public function run()
