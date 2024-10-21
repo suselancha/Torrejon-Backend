@@ -18,7 +18,7 @@ class Client extends Model
         "code",
         "surname",
         "name",
-        "full_name",
+        "razon_social",
         "client_segment_id",
         "phone",
         "celular",
@@ -26,6 +26,7 @@ class Client extends Model
         "type",
         "type_document",
         "n_document",
+        "cuit",
         "address",
         "user_id",
         "state",
@@ -50,11 +51,7 @@ class Client extends Model
     public function client_segment(){
         return $this->belongsTo(ClientSegment::class);
     }
-
-    public function user(){
-        return $this->belongsTo(User::class);
-    }
-
+    
     public function scopeFilterAdvance($query, $search, $client_segment_id, $type){
         if($search){
             // Búsqueda múltiples campos

@@ -52,8 +52,15 @@ class ClientController extends Controller
         $request->request->add(["user_id" => auth()->user()->id]);
         $client = Client::create($request->all());
         return response()->json([
-            "message" => 200,
-            "client" => ClientResource::make($client),
+            "message" => 200,            
+        ]);
+    }
+
+    public function show(string $id)
+    {
+        $client = Client::findOrFail($id);
+        return response()->json([
+            "client" => $client,            
         ]);
     }
 
@@ -72,7 +79,6 @@ class ClientController extends Controller
         $client->update($request->all());
         return response()->json([
             "message" => 200,
-            "client" => ClientResource::make($client),
         ]);
     }
 
