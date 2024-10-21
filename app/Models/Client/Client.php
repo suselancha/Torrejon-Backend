@@ -23,7 +23,6 @@ class Client extends Model
         "phone",
         "celular",
         "email",
-        "type",
         "type_document",
         "n_document",
         "cuit",

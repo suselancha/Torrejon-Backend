@@ -42,11 +42,11 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         // TODO: FALTA VALIDAR POR DNI Y POR CODIGO
-        $is_exits_client = Client::where("full_name",$request->full_name)->first();
+        $is_exits_client = Client::where("n_document",$request->full_name)->first();
         if($is_exits_client){
             return response()->json([
                 "message" => 403,
-                "message_text" => "Los datos del cliente ya existe"
+                "message_text" => "El cliente ya existe"
             ]);
         }
         $request->request->add(["user_id" => auth()->user()->id]);
