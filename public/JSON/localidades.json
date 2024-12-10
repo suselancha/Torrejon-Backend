@@ -7032,6 +7032,12 @@
     "provincia_id": "10"
   },
   {
+    "id": "100824",
+    "name": "SUMAJ PACHA",
+    "departamento_id": "1008",
+    "provincia_id": "10"
+  },
+  {
     "id": "100901",
     "name": "ALTO CALILEGUA",
     "departamento_id": "1009",
@@ -11083,68 +11089,8 @@
   },
   {
     "id": "170101",
-    "name": "Tambopata",
+    "name": "IRUYA",
     "departamento_id": "1701",
-    "provincia_id": "17"
-  },
-  {
-    "id": "170102",
-    "name": "Inambari",
-    "departamento_id": "1701",
-    "provincia_id": "17"
-  },
-  {
-    "id": "170103",
-    "name": "Las Piedras",
-    "departamento_id": "1701",
-    "provincia_id": "17"
-  },
-  {
-    "id": "170104",
-    "name": "Laberinto",
-    "departamento_id": "1701",
-    "provincia_id": "17"
-  },
-  {
-    "id": "170201",
-    "name": "Manu",
-    "departamento_id": "1702",
-    "provincia_id": "17"
-  },
-  {
-    "id": "170202",
-    "name": "Fitzcarrald",
-    "departamento_id": "1702",
-    "provincia_id": "17"
-  },
-  {
-    "id": "170203",
-    "name": "Madre de Dios",
-    "departamento_id": "1702",
-    "provincia_id": "17"
-  },
-  {
-    "id": "170204",
-    "name": "Huepetuhe",
-    "departamento_id": "1702",
-    "provincia_id": "17"
-  },
-  {
-    "id": "170301",
-    "name": "Iñapari",
-    "departamento_id": "1703",
-    "provincia_id": "17"
-  },
-  {
-    "id": "170302",
-    "name": "Iberia",
-    "departamento_id": "1703",
-    "provincia_id": "17"
-  },
-  {
-    "id": "170303",
-    "name": "Tahuamanu",
-    "departamento_id": "1703",
     "provincia_id": "17"
   },
   {
