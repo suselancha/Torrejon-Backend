@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests\Account;
 
+use App\Models\Account\Account;
 use App\Rules\IdExistsInTables;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
 class StoreRequest extends FormRequest
 {
@@ -25,10 +27,22 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'      => 'required|string|max:255',
-            'alias'     => 'required|string|max:255|unique:accounts',
-            'ubc'       => 'required|string|numeric|digits:22|unique:accounts',
-            'number'    => 'required|string|numeric|min_digits:8|max_digits:12|unique:accounts',
+            'name'      => [
+                'required', 'string', 'max:255', 
+                Rule::unique('accounts')->whereNull('deleted_at')
+            ],
+            'alias'     => [
+                'required', 'string', 'max:255', 
+                Rule::unique('accounts')->whereNull('deleted_at')
+            ],
+            'ubc'       => [
+                'required', 'string', 'numeric', 'digits:22',
+                Rule::unique('accounts')->whereNull('deleted_at')
+            ],
+            'number'    => [
+                'required', 'string', 'numeric', 'min_digits:8', 'max_digits:12',
+                Rule::unique('accounts')->whereNull('deleted_at')
+            ],
             'bank_id'   => 'required|integer|exists:banks,id',
             'accountable_type'=> 'required|in:client,provider',
             'accountable_id'  => [
