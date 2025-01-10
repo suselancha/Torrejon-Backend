@@ -10,39 +10,55 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class BankController extends Controller
-{
+{   
+    protected $model;
+
+    public function __construct(Bank $bank)
+    {
+        $this->model = $bank;
+    }
+
     public function index(Request $request)
     {
-        $banks = Bank::all();
+        $banks = Bank::where('name', 'like', '%'.$request->search.'%')
+            ->orderBy('id', 'desc')
+            ->paginate(25);
 
         return response()->json([
-            "banks" => $banks,
-        ]);
+            'total' => $banks->total(),
+            'banks' => $banks->map(function($bank) {
+                return [
+                    "id" => $bank->id,
+                    "name" => $bank->name
+                ]; 
+            }),
+        ]);        
     }
 
     public function store(Request $request)
     {
-    
-        try{        
-            DB::beginTransaction();    
-            Bank::create($request->all());
-            DB::commit();            
-        } catch(\Throwable $th) {
-            DB::rollBack();
-            Log::info($th);
+        $result = $this->model->createModel($request);
+
+        if ($result['success']) {
+            $response=[
+                'success' => true,
+                'message' => 'Banco Creado Correctamente.',
+                'status' => 201,
+                'bank'  => $result['bank']
+            ];
+
+            return response()->json($response, 201);
+        }
+        else {
             $response=[
                 'success' => false,
-                'message' => $th->getMessage(),
+                'message' => $result['th']->getMessage(),
                 'status' => 500
             ];
+            
             throw new HttpResponseException(response()->json($response, 500));
         }
-        $response=[
-            'success' => true,
-            'message' => 'Banco Creado Correctamente.',
-            'status' => 201
-        ];
-        return response()->json($response, 201);
+        
     }
 
     public function show(string $id)
@@ -57,39 +73,54 @@ class BankController extends Controller
 
     public function update(Request $request, string $id)
     {
-        try{        
-            DB::beginTransaction();    
-            $bank = Bank::findOrFail($id);
-            $bank->update($request->all());
-            DB::commit();            
-        } catch(\Throwable $th) {
-            DB::rollBack();
-            Log::info($th);
+        
+        $bank = Bank::findOrFail($id);
+
+        $result = $this->model->updateModel($request, $bank);
+
+        if ($result['success']) {
+            
+            $response=[
+                'success' => true,
+                'message' => 'Banco Actualizado Correctamente.',
+                'status' => 200,
+                'bank'  => $result['bank']
+            ];
+
+            return response()->json($response);
+        }
+        else {
+
             $response=[
                 'success' => false,
-                'message' => $th->getMessage(),
+                'message' => $result['th']->getMessage(),
                 'status' => 500
             ];
+
             throw new HttpResponseException(response()->json($response, 500));
         }
-        $response=[
-            'success' => true,
-            'message' => 'Cuenta Actualizada Correctamente.',
-            'status' => 200
-        ];
-        return response()->json($response, 201);
     }
 
     public function destroy(string $id)
-    {
-        $bank = Bank::findOrFail($id);
-        
-        $bank->delete();
-        
-        return response()->json([
-            "success"   => true,
-            "message"   => 'Cuenta eliminada correctamente',
-            "status"    => 200
-        ]);
+    {   
+        $result = $this->model->deleteModel($id);
+
+        if ($result['success']) {
+            return response()->json([
+                "success"   => true,
+                "message"   => 'Banco eliminado correctamente',
+                "status"    => 200,
+                "bank"      => $result['bank']
+            ]);
+        }
+        else {
+            $response=[
+                'success' => false,
+                'message' => $result['th']->getMessage(),
+                'status' => 500
+            ];
+
+            throw new HttpResponseException(response()->json($response, 500));
+        }        
     }
 }

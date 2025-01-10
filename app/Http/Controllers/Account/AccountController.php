@@ -22,7 +22,6 @@ class AccountController extends Controller
     {
         $search = $request->search;
         $accounts = Account::where('name', 'like', '%'.$search.'%')
-            ->orWhere('bank', 'like', '%'.$search.'%')
             ->orWhere('alias', 'like', '%'.$search.'%')
             ->orWhere('ubc', 'like', '%'.$search.'%')
             ->orderBy('id', 'desc')
@@ -35,7 +34,7 @@ class AccountController extends Controller
                     return [
                         'id'        => $account->id,
                         'name'      => $account->name,
-                        'bank'      => $account->bank,
+                        'bank'      => $account->bank->name,
                         'alias'     => $account->alias,
                         'number'    => $account->number,
                         'ubc'       => $account->ubc,
@@ -56,37 +55,28 @@ class AccountController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        DB::beginTransaction();
+        $result = Account::createModel($request);
 
-        try{        
-            
-            $account = Account::createModel($request);
-            
-            DB::commit();
+        if($result['success']) {
+            $response=[
+                'success' => true,
+                'message' => 'Cuenta bancaria creada correctamente.',
+                'status' => 201,
+                'account' => $result['account']
+            ];
 
-        } catch(\Throwable $th) {
-            
-            DB::rollBack();
-            
-            Log::info($th);
-            
+            return response()->json($response, 201);
+        }
+        else {
             $response=[
                 'success' => false,
-                'message' => $th->getMessage(),
+                'message' => $result['th']->getMessage(),
                 'status' => 500
             ];
             
             throw new HttpResponseException(response()->json($response, 500));
         }
 
-        $response=[
-            'success' => true,
-            'message' => 'Cuenta bancaria creada correctamente.',
-            'status' => 201,
-            'account' => $account
-        ];
-
-        return response()->json($response, 201);
     }
 
     /**
@@ -115,7 +105,17 @@ class AccountController extends Controller
 
         return response()->json([
             'accountable' => $accountable,            
-            'accounts' => $accountable->accounts
+            'accounts'  => $accountable->accounts->map(function($account){
+                return [
+                    'id'        => $account->id,
+                    'name'      => $account->name,
+                    'bank_id'   => $account->bank_id,
+                    'alias'     => $account->alias,
+                    'number'    => $account->number,
+                    'ubc'       => $account->ubc,
+                    'bank'      => $account->bank
+                ];
+            })
         ]);
     }
 
@@ -123,16 +123,22 @@ class AccountController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdateRequest $request, Account $account)
-    {           
-        //$user = Account::findOrFail($account->id);        
-
+    {
         $account->update($request->all());
 
         $response=[
             'success'   => true,
             'message'   => 'Cuenta bancaria acualizada correctamente.',
             'status'    => 200,
-            'account'   => $account
+            'account'   => [
+                'id'        => $account->id,
+                'name'      => $account->name,
+                'bank_id'      => $account->bank_id,
+                'alias'     => $account->alias,
+                'number'    => $account->number,
+                'ubc'       => $account->ubc,
+                'bank'      => $account->bank
+            ]
         ];
 
         return response()->json($response, 200);
@@ -143,10 +149,24 @@ class AccountController extends Controller
      */
     public function destroy(string $id)
     {
-        $account = Account::findOrFail($id);
-        
-        $account->delete();
+        try {
+            $account = Account::findOrFail($id);    
 
+            $account->delete();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            
+            Log::info($th);
+            
+            $response=[
+                'success' => false,
+                'message' => $th->getCode(),
+                'status' => 500
+            ];
+            
+            throw new HttpResponseException(response()->json($response, 500));
+        }
+        
         return response()->json([
             'success'   => true,
             'message'   => 'Cuenta bancaria eliminada correctamente',

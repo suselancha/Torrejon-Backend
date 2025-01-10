@@ -26,10 +26,10 @@ class StoreRequest extends FormRequest
     {
         return [
             'name'      => 'required|string|max:255',
-            'bank'      => 'required|string|max:255',
             'alias'     => 'required|string|max:255|unique:accounts',
             'ubc'       => 'required|string|numeric|digits:22|unique:accounts',
             'number'    => 'required|string|numeric|min_digits:8|max_digits:12|unique:accounts',
+            'bank_id'   => 'required|integer|exists:banks,id',
             'accountable_type'=> 'required|in:client,provider',
             'accountable_id'  => [
                 'required',
@@ -55,7 +55,7 @@ class StoreRequest extends FormRequest
             'accountable_type.in'         => 'El tipo de titular no es valido.',
             'accountable_id.required'     => 'El titular de la cuenta es un campo obligatorio.',
             'accountable_id.integer'      => 'El titular de la cuenta no es valido.',
-            //'accountable_id.exists'       => 'El titular de la cuenta no se encuentra registrado.',
+            'bank_id.exists'              => 'El banco no se encuentra registrado.',
         ]; 
     }
 }

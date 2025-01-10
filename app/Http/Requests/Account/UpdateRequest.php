@@ -25,10 +25,10 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name'          => 'required|string|max:255',
-            'bank'          => 'required|string|max:255',
             'alias'         => 'required|string|max:255|unique:accounts,alias,'.$this->account->id,
             'ubc'           => 'required|string|numeric|digits:22|unique:accounts,ubc,'.$this->account->id,
             'number'        => 'required|string|numeric|min_digits:8|max_digits:12|unique:accounts,number,'.$this->account->id,
+            'bank_id'       => 'required|integer|exists:banks,id',
             'accountable_type'=> 'in:client, provider',
             'accountable_id'  => [
                 'integer',
@@ -54,6 +54,7 @@ class UpdateRequest extends FormRequest
             'accountable_id.required'     => 'El titular de la cuenta es un campo obligatorio.',
             'accountable_id.integer'      => 'El titular de la cuenta no es valido.',
             'accountable_id.exists'       => 'El titular de la cuenta no se encuentra registrado.',
+            'bank_id.exists'              => 'El banco no se encuentra registrado.',
         ]; 
     }
 }

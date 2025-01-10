@@ -78,7 +78,8 @@ class Client extends Model
         }
     }
 
-    public function accounts() {
+    public function accounts() 
+    {
         return $this->morphMany(Account::class, 'accountable');
     }
 }

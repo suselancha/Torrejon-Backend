@@ -4,10 +4,13 @@ namespace App\Models\Account;
 
 use App\Http\Requests\Account\StoreRequest;
 use App\Models\Client\Client;
+use App\Models\Configuration\Bank;
 use App\Models\Provider\Provider;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Account extends Model
 {
@@ -21,10 +24,12 @@ class Account extends Model
      */
     protected $fillable = [
         'name',
-        'bank',
         'alias',
         'number',
-        'ubc'
+        'ubc',
+        'bank_id',
+        'accountable_id',
+        'accountable_type'
     ];
 
     /**
@@ -38,6 +43,10 @@ class Account extends Model
         'deleted_at'
     ];
 
+    public function bank() {
+        return $this->belongsTo(Bank::class);
+    }
+
     /**
      * Get the provider or client that owns the account
      *
@@ -48,22 +57,44 @@ class Account extends Model
         return $this->morphTo();
     }
 
-    public static function createModel(StoreRequest $request) {
+    public static function createModel(StoreRequest $request) 
+    {
+        try{
+            switch ($request->accountable_type) {
+                case 'client':
+                    $owner = Client::findOrFail($request->accountable_id);
+                    break;
+                case 'provider':
+                    $owner = Provider::findOrFail($request->accountable_id);
+                    break;                
+            }
 
-        switch ($request->accountable_type) {
-            case 'client':
-                $owner = Client::findOrFail($request->accountable_id);
-                break;
-            case 'provider':
-                $owner = Provider::findOrFail($request->accountable_id);
-                break;                
+            DB::beginTransaction();
+
+            $account = Account::create($request->all());
+
+            $owner->accounts()->save($account);
+            
+            DB::commit();
+
+            $result['success'] = true;
+
+            $result['account'] = $account;
+
+        } catch(\Throwable $th) {
+            
+            DB::rollBack();
+            
+            Log::info($th);
+            
+            $result['success'] = false;
+
+            $result['th'] = $th;
+
+            return $result;
         }
 
-        $account = Account::create($request->all());
-
-        $owner->accounts()->save($account);
-
-        return $account;
+        return $result;
 
     }
 }
