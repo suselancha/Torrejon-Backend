@@ -5,6 +5,7 @@ namespace App\Http\Requests\Account;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -24,10 +25,22 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'          => 'required|string|max:255',
-            'alias'         => 'required|string|max:255|unique:accounts,alias,'.$this->account->id,
-            'ubc'           => 'required|string|numeric|digits:22|unique:accounts,ubc,'.$this->account->id,
-            'number'        => 'required|string|numeric|min_digits:8|max_digits:12|unique:accounts,number,'.$this->account->id,
+            'name'      => [
+                'required', 'string', 'max:255', 
+                Rule::unique('accounts')->whereNull('deleted_at')->ignore($this->account->id)
+            ],
+            'alias'     => [
+                'required', 'string', 'max:255', 
+                Rule::unique('accounts')->whereNull('deleted_at')->ignore($this->account->id)
+            ],
+            'ubc'       => [
+                'required', 'string', 'numeric', 'digits:22',
+                Rule::unique('accounts')->whereNull('deleted_at')->ignore($this->account->id)
+            ],
+            'number'    => [
+                'required', 'string', 'numeric', 'min_digits:8', 'max_digits:12',
+                Rule::unique('accounts')->whereNull('deleted_at')->ignore($this->account->id)
+            ],
             'bank_id'       => 'required|integer|exists:banks,id',
             'accountable_type'=> 'in:client, provider',
             'accountable_id'  => [

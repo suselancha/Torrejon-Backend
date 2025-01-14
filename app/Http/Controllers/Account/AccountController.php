@@ -133,7 +133,7 @@ class AccountController extends Controller
             'account'   => [
                 'id'        => $account->id,
                 'name'      => $account->name,
-                'bank_id'      => $account->bank_id,
+                'bank_id'   => $account->bank_id,
                 'alias'     => $account->alias,
                 'number'    => $account->number,
                 'ubc'       => $account->ubc,

@@ -2,15 +2,19 @@
 
 use App\Http\Controllers\Account\AccountController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Configuration\BankController;
 use App\Http\Controllers\Configuration\ClientSegmentController;
 use App\Http\Controllers\Configuration\EmployeeFunctionController;
 use App\Http\Controllers\Configuration\ZonaController;
+use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Provider\ProviderController;
 use App\Http\Controllers\RolePermissionController;
+use App\Http\Controllers\Subcategory\SubcategoryController;
 use App\Http\Controllers\Sucursale\SucursaleController;
 use App\Http\Controllers\UserAccessController;
+use App\Http\Controllers\Warehouse\WarehouseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -69,4 +73,11 @@ Route::group([
     Route::post('accounts/filter', [AccountController::class, 'get_accounts']);
     Route::resource('accounts', AccountController::class);
     Route::resource('banks', BankController::class);
+
+    Route::post('subcategories/filter', [SubcategoryController::class, 'get_subcategories']);
+    Route::resource('subcategories', SubcategoryController::class);
+    Route::resource('categories', CategoryController::class);
+    Route::get('products/config', [ProductController::class, 'config']);
+    Route::resource('products', ProductController::class);
+    Route::resource('warehouses', WarehouseController::class);
 });

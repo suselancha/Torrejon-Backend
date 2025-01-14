@@ -3,6 +3,7 @@
 namespace App\Models\Provider;
 
 use App\Models\Account\Account;
+use App\Models\Product\Product;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -55,5 +56,9 @@ class Provider extends Model
 
     public function accounts() {
         return $this->morphMany(Account::class, 'accountable');
+    }
+
+    public function products() {
+        return $this->hasMany(Product::class);
     }
 }

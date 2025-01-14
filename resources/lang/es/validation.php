@@ -150,7 +150,7 @@ return [
     'uuid'                 => 'El campo :attribute debe ser un UUID válido.',
     'attributes'           => [
         'agreement'                => 'convenio',
-        'category'                 => 'categoria',
+        'category'                 => 'rubro',
         'file'                     => 'legajo',
         'jobcode'                 => 'cuil',
         'senority'                 => 'antigüedad',
@@ -222,6 +222,7 @@ return [
         'product_uuid'             => 'UUID del producto',
         'promo_code'               => 'código promocional',
         'province'                 => 'provincia',
+        'provider'                 => 'proveedor',
         'quantity'                 => 'cantidad',
         'recaptcha_response_field' => 'respuesta del recaptcha',
         'remember'                 => 'recordar',
@@ -237,6 +238,7 @@ return [
         'state'                    => 'estado',
         'street'                   => 'calle',
         'student'                  => 'estudiante',
+        'subcategory'              => 'subrubro',
         'subject'                  => 'asunto',
         'surname'                  => 'apellido',
         'teacher'                  => 'profesor',
@@ -251,6 +253,7 @@ return [
         'updated_at'               => 'actualizado el',
         'user'                     => 'usuario',
         'username'                 => 'usuario',
+        'warehouse'                => 'almacen',
         'year'                     => 'año',
     ],
 ];
