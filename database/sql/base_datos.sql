@@ -27,20 +27,94 @@ SET time_zone = "+00:00";
 --
 -- Estructura de tabla para la tabla `accounts`
 --
+--
+-- Table structure for table `accounts`
+--
 
+DROP TABLE IF EXISTS `accounts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `accounts` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `bank` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `alias` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ubc` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `accountable_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `accountable_type` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'client',
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bank_id` bigint NOT NULL,
+  `alias` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ubc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `accountable_id` bigint unsigned NOT NULL DEFAULT '0',
+  `accountable_type` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'client',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `accounts`
+--
+
+LOCK TABLES `accounts` WRITE;
+/*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
+INSERT INTO `accounts` VALUES (16,'Patagonia Alfredo',6,'alfred.patagonia.24','134679131346','1346791313461346791313',17,'App\\Models\\Client\\Client','2024-12-29 16:51:31','2024-12-30 12:37:19','2024-12-30 12:37:19'),
+(17,'Galicia Mamani',8,'alfredo.galicia','191973191973','1919731919731919731916',17,'App\\Models\\Client\\Client','2024-12-30 12:36:29','2024-12-30 12:37:24','2024-12-30 12:37:24'),(18,'Galicia Pulga',5,'santander.pulga','734286734286','7342867342867342867342',1,'App\\Models\\Provider\\Provider','2024-12-30 12:42:47','2025-01-10 14:59:46','2025-01-10 14:59:46'),(19,'Gali Alderete',5,'alderete.2025','864273864273','8642738642738642738642',1,'App\\Models\\Provider\\Provider','2024-12-30 12:43:25','2024-12-30 12:45:36','2024-12-30 12:45:36'),(20,'cuent_santander',7,'mamani.macro2','123456789555','1234567895551234567895',17,'App\\Models\\Client\\Client','2025-01-10 14:58:20','2025-01-10 14:58:47','2025-01-10 14:58:47'),(23,'Macro Mamani',10,'mamani.macro','777888999222','7778889992227778889992',17,'App\\Models\\Client\\Client','2025-01-10 15:36:01','2025-01-10 15:36:02',NULL),(24,'SuCuenta',8,'gpedroza.santander13','666888444555','6668884445556668884445',2,'App\\Models\\Provider\\Provider','2025-01-10 15:39:23','2025-01-10 15:40:59',NULL),(25,'OtraSuCuenta',10,'gpedroza.santander21','333111666444','3331116664443331116664',2,'App\\Models\\Provider\\Provider','2025-01-10 15:40:26','2025-01-10 15:41:33','2025-01-10 15:41:33');
+/*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `banks`
+--
+
+DROP TABLE IF EXISTS `banks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `banks` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `banks`
+--
+
+LOCK TABLES `banks` WRITE;
+/*!40000 ALTER TABLE `banks` DISABLE KEYS */;
+INSERT INTO `banks` VALUES (5,'GALICIA','2024-12-29 13:43:06','2024-12-29 13:46:37',NULL),(6,'MACRO','2024-12-29 13:47:05','2025-01-10 14:44:15','2025-01-10 14:44:15'),(7,'PATAGON','2024-12-29 13:47:15','2025-01-10 15:05:45','2025-01-10 15:05:45'),(8,'SANTANDER','2024-12-29 13:47:24','2025-01-10 15:05:34',NULL),(9,'CREDICOP','2025-01-10 14:43:47','2025-01-10 14:44:19','2025-01-10 14:44:19'),(10,'MACRO','2025-01-10 15:05:27','2025-01-10 15:05:27',NULL);
+/*!40000 ALTER TABLE `banks` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `categories`
+--
+
+DROP TABLE IF EXISTS `categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `categories` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `categories`
+--
+
+LOCK TABLES `categories` WRITE;
+/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+INSERT INTO `categories` VALUES (1,'LEGUMBRES','Nueva Descripcion legumbres','2025-01-13 05:01:08','2025-01-14 00:27:52','2025-01-14 00:27:52'),(2,'Lacteos','Descripcionde Lacteos','2025-01-13 17:05:33','2025-01-13 17:22:53',NULL),(3,'Verduras','Descripcion de Verduras','2025-01-13 17:06:29','2025-01-13 17:11:52','2025-01-13 17:11:52'),(4,'Lacteos','Descripcion de Frutas','2025-01-13 17:11:17','2025-01-13 17:22:45','2025-01-13 17:22:45'),(5,'Verduras','Deasdcipriotn Verduras','2025-01-14 03:15:41','2025-01-14 03:15:41',NULL);
+/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
+UNLOCK TABLES;
 
 -- --------------------------------------------------------
 
@@ -55,6 +129,7 @@ CREATE TABLE `clients` (
   `name` varchar(255) DEFAULT NULL,
   `razon_social` varchar(255) DEFAULT NULL,
   `client_segment_id` bigint(20) UNSIGNED NOT NULL,
+  `zona_id` bigint(20) UNSIGNED DEFAULT NULL,
   `phone` varchar(25) DEFAULT NULL,
   `celular` varchar(25) DEFAULT NULL,
   `email` varchar(250) DEFAULT NULL,
@@ -1759,6 +1834,40 @@ CREATE TABLE `personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `products`
+--
+
+DROP TABLE IF EXISTS `products`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `products` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `type` varchar(45) DEFAULT NULL,
+  `category_id` bigint unsigned DEFAULT NULL,
+  `subcategory_id` bigint unsigned DEFAULT NULL,
+  `warehouse_id` bigint unsigned DEFAULT NULL,
+  `provider_id` bigint unsigned DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `products`
+--
+
+LOCK TABLES `products` WRITE;
+/*!40000 ALTER TABLE `products` DISABLE KEYS */;
+INSERT INTO `products` VALUES (1,'1357','Menu 1','Plato menu 1',NULL,2,5,2,2,'2025-01-14 03:18:54','2025-01-14 04:17:47','2025-01-14 04:17:47'),(2,'1113','Pata muslo','Descirpcion Pata muslo',NULL,5,6,2,3,'2025-01-14 05:01:39','2025-01-14 05:01:39',NULL);
+/*!40000 ALTER TABLE `products` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Estructura de tabla para la tabla `providers`
 --
 
@@ -1984,6 +2093,36 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 
 -- --------------------------------------------------------
 
+
+--
+-- Table structure for table `subcategories`
+--
+
+DROP TABLE IF EXISTS `subcategories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `subcategories` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `category_id` bigint unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `subcategories`
+--
+
+LOCK TABLES `subcategories` WRITE;
+/*!40000 ALTER TABLE `subcategories` DISABLE KEYS */;
+INSERT INTO `subcategories` VALUES (1,'Yogurt Ramolac','Descirption yogurt',2,'2025-01-13 18:28:58','2025-01-13 23:15:41',NULL),(2,'Leche Manfrey','Leche 1lts sache',2,'2025-01-13 18:29:41','2025-01-14 00:29:58','2025-01-14 00:29:58'),(3,'Porotos','Descripcion de porotos',1,'2025-01-13 23:03:25','2025-01-14 00:27:45','2025-01-14 00:27:45'),(4,'Lenteja','Desciprion de lentejas',1,'2025-01-13 23:03:42','2025-01-13 23:55:13','2025-01-13 23:55:13'),(5,'Leche Manfrey','Deacripcion Leche',2,'2025-01-14 03:15:24','2025-01-14 03:15:24',NULL),(6,'Papa','Descripcion papa',5,'2025-01-14 03:16:03','2025-01-14 03:16:03',NULL),(7,'Cebollas','Deasciricon Cebolals',5,'2025-01-14 03:16:18','2025-01-14 03:16:18',NULL);
+/*!40000 ALTER TABLE `subcategories` ENABLE KEYS */;
+UNLOCK TABLES;
+
 --
 -- Estructura de tabla para la tabla `sucursales`
 --
@@ -2066,6 +2205,36 @@ INSERT INTO `users` (`id`, `name`, `surname`, `document`, `email`, `email_verifi
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `warehouses`
+--
+
+DROP TABLE IF EXISTS `warehouses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `warehouses` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `phone` varchar(45) DEFAULT NULL,
+  `empresa_id` bigint unsigned NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `warehouses`
+--
+
+LOCK TABLES `warehouses` WRITE;
+/*!40000 ALTER TABLE `warehouses` DISABLE KEYS */;
+INSERT INTO `warehouses` VALUES (1,'Almacen 1','Lavalle 4565','388-0601221',1,'2025-01-14 01:18:50','2025-01-14 01:43:18','2025-01-14 01:43:18'),(2,'Almacen 21','Otero n°446','388-4649972',1,'2025-01-14 01:21:42','2025-01-14 01:37:38',NULL);
+/*!40000 ALTER TABLE `warehouses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Estructura de tabla para la tabla `zonas`
 --
 
@@ -2102,7 +2271,6 @@ INSERT INTO `zonas` (`id`, `name`, `location`, `description`, `state`, `created_
 -- Indices de la tabla `accounts`
 --
 ALTER TABLE `accounts`
-  ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email_UNIQUE` (`alias`),
   ADD UNIQUE KEY `number_UNIQUE` (`number`),
   ADD UNIQUE KEY `ubc_UNIQUE` (`ubc`);

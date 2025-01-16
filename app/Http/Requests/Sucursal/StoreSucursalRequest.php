@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Requests\Sucursal;
+
+use App\Rules\ClientHasNotZone;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -25,9 +27,9 @@ class StoreSucursalRequest extends FormRequest
         return [            
             'code' => 'nullable|unique:sucursales|between:1,4',
             'nombre' => 'required|max:200',
-            'client_id' => 'required|integer|exists:clients,id',
             'zona_id' => 'required|integer|exists:zonas,id',
-            'state' => 'required|numeric'
+            'state' => 'required|numeric',
+            'client_id' => ['required','integer','exists:clients,id', new ClientHasNotZone()],
         ];
     }
 

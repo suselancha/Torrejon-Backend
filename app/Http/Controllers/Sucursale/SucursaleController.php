@@ -48,7 +48,11 @@ class SucursaleController extends Controller
         $n_document = $request->get("n_document");
         $surname = $request->get("surname");
 
-        $clients = Client::filterSucursal($code, $n_document, $surname)->where("state", 1)->orderBy("id","desc")->get();
+        $clients = Client::filterSucursal($code, $n_document, $surname)
+            ->where("state", 1)
+            ->whereNull("zona_id")
+            ->orderBy("id","desc")
+            ->get();
         return response()->json([
             "clients" => $clients->map(function($client){
                 return[

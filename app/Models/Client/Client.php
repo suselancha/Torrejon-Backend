@@ -4,6 +4,8 @@ namespace App\Models\Client;
 
 use App\Models\Account\Account;
 use App\Models\Configuration\ClientSegment;
+use App\Models\Configuration\Zona;
+use App\Models\Sucursale\Sucursale;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,7 +37,8 @@ class Client extends Model
         "ubigeo_localidad",
         "provincia",
         "departamento",
-        "localidad"
+        "localidad",
+        "zona_id"
     ];
 
     public function setCreatedAtAttribute($value) {
@@ -55,7 +58,16 @@ class Client extends Model
     public function scopeFilterAdvance($query, $search, $client_segment_id){
         if($search){
             // Búsqueda múltiples campos
-            $query->where(DB::raw("CONCAT(IFNULL(clients.cuit,''),' ',IFNULL(clients.code,''),' ',IFNULL(clients.n_document,''))"),"like","%".$search."%");
+            //$query->where(DB::raw("CONCAT(IFNULL(clients.cuit,''),' ',IFNULL(clients.code,''),' ',IFNULL(clients.n_document,''))"),"like","%".$search."%");
+
+            $query->where('name', 'like', "%$search%")
+            ->orWhere('surname', 'like', "%$search%")
+            ->orWhere('cuit', 'like', "%$search%")
+            ->orWhere('code', 'like', "%$search%")
+            ->orWhere('n_document', 'like', "%$search%")
+            ->orWhereHas('zona', function ($query) use ($search) {
+                $query->where('name', 'like', "%$search%");
+            });
         }
         
         if($client_segment_id){
@@ -81,5 +93,15 @@ class Client extends Model
     public function accounts() 
     {
         return $this->morphMany(Account::class, 'accountable');
+    }
+
+    public function zona()
+    {
+        return $this->belongsTo(Zona::class);
+    }
+
+    public function sucursales()
+    {
+        return $this->hasMany(Sucursale::class);
     }
 }

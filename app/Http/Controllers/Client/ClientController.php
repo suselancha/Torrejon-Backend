@@ -10,6 +10,7 @@ use App\Http\Resources\Client\ClientCollection;
 use App\Imports\ClientsImport;
 use App\Models\Client\Client;
 use App\Models\Configuration\ClientSegment;
+use App\Models\Configuration\Zona;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -40,8 +41,16 @@ class ClientController extends Controller
     {
         $client_segments = ClientSegment::where("state",1)->get();
 
+        $zonas = Zona::all();
+
         return response()->json([
-            "client_segments" => $client_segments
+            "client_segments" => $client_segments,
+            "zonas" => $zonas->map(function($zona) {
+                return [
+                    "id" => $zona->id,
+                    "name" => $zona->name
+                ];
+            })
         ]);
     }
 
@@ -89,7 +98,7 @@ class ClientController extends Controller
         try{        
             DB::beginTransaction();    
             Client::create($request->all());
-            DB::commit();            
+            DB::commit();
         } catch(\Throwable $th) {
             DB::rollBack();
             Log::info($th);
@@ -110,9 +119,9 @@ class ClientController extends Controller
 
     public function show(string $id)
     {
-        $client = Client::findOrFail($id);
+        $client = Client::with('sucursales')->findOrFail($id);
         return response()->json([
-            "client" => $client,            
+            "client" => $client,
         ]);
     }
 

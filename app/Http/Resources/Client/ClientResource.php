@@ -20,11 +20,12 @@ class ClientResource extends JsonResource
             "surname" => $this->resource->surname,
             "name" => $this->resource->name,
             "razon_social" => $this->resource->razon_social,
-            "client_segment_id" => $this->resource->client_segment_id,
+            "client_segment_id" => $this->resource->client_segment_id,            
             "client_segment" => $this->resource->client_segment ? [
                 "id" => $this->resource->client_segment->id,
                 "name" => $this->resource->client_segment->name,
             ] : NULL,
+            "zona_id" => $this->resource->zona_id,
             "phone" => $this->resource->phone,
             "celular" => $this->resource->celular,
             "email" => $this->resource->email,            

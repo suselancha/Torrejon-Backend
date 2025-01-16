@@ -29,7 +29,8 @@ class StoreClientRequest extends FormRequest
             'cuit' => 'nullable|unique:clients|min:11|max:11|regex:/^([0-9])*$/',
             'code' => 'nullable|unique:clients|between:1,4',
             'client_segment_id' => 'required|integer|exists:client_segments,id',
-            'state' => 'required|numeric'
+            'state' => 'required|numeric',
+            'zona_id' => 'nullable|integer|exists:zonas,id'
         ]; 
     }
 
@@ -62,6 +63,8 @@ class StoreClientRequest extends FormRequest
             'client_segment_id.exists' => 'Tipo de cliente no existe',
             'state.required' => 'Estado requerido',
             'state.numeric' => 'Estado debe ser numérico',
+            'zona_id.integer' => 'La opcion zona no es valida',
+            'zona_id.exists' => 'La zona seleccionada no esta registrada',
         ]; 
     }
 }
