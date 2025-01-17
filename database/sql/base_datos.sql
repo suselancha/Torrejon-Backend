@@ -2,10 +2,10 @@
 -- version 4.9.11
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Jan 16, 2025 at 09:34 AM
--- Server version: 5.7.36
--- PHP Version: 7.4.33
+-- Servidor: localhost
+-- Tiempo de generación: 17-01-2025 a las 17:22:36
+-- Versión del servidor: 5.7.36
+-- Versión de PHP: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,15 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `fotoseve_eventos`
+-- Base de datos: `fotoseve_eventos`
 --
-CREATE DATABASE IF NOT EXISTS `fotoseve_eventos` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `fotoseve_eventos`;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accounts`
+-- Estructura de tabla para la tabla `accounts`
 --
 
 CREATE TABLE `accounts` (
@@ -47,7 +45,7 @@ CREATE TABLE `accounts` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `banks`
+-- Estructura de tabla para la tabla `banks`
 --
 
 CREATE TABLE `banks` (
@@ -58,10 +56,17 @@ CREATE TABLE `banks` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `banks`
+--
+
+INSERT INTO `banks` (`id`, `name`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'DEMO', '2025-01-17 19:00:29', '2025-01-17 19:00:37', '2025-01-17 19:00:37');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categories`
+-- Estructura de tabla para la tabla `categories`
 --
 
 CREATE TABLE `categories` (
@@ -73,10 +78,19 @@ CREATE TABLE `categories` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `categories`
+--
+
+INSERT INTO `categories` (`id`, `name`, `description`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'rubro11', 'rubro de rbuos', '2025-01-17 19:02:44', '2025-01-17 19:02:48', NULL),
+(2, '23', '23', '2025-01-17 19:08:05', '2025-01-17 19:08:05', NULL),
+(3, '999', '999', '2025-01-17 19:20:38', '2025-01-17 23:10:21', '2025-01-17 23:10:21');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `clients`
+-- Estructura de tabla para la tabla `clients`
 --
 
 CREATE TABLE `clients` (
@@ -107,12 +121,12 @@ CREATE TABLE `clients` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `clients`
+-- Volcado de datos para la tabla `clients`
 --
 
 INSERT INTO `clients` (`id`, `code`, `surname`, `name`, `razon_social`, `client_segment_id`, `zona_id`, `phone`, `celular`, `email`, `type_document`, `n_document`, `cuit`, `address`, `state`, `ubigeo_provincia`, `ubigeo_departamento`, `ubigeo_localidad`, `provincia`, `departamento`, `localidad`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, '186', 'LAMAS', 'SANTIAGO', 'TACITA DE PLATA', 6, NULL, NULL, '3884321268', NULL, NULL, NULL, '20139999844', 'URDININEA 278', 1, '10', '1010', '101019', 'JUJUY', 'DR. MANUEL BELGRANO', 'SAN SALVADOR DE JUJUY', '2024-11-21 13:10:39', '2024-11-21 13:10:39', NULL),
-(2, '46', 'CAMPANILE', 'WALTER', 'PRONTO CUCCINA', 6, NULL, NULL, '3884614000', NULL, NULL, NULL, '23256438429', 'TTE TUCO ESQUINA DAVILA 896', 1, '10', '1010', '101019', 'JUJUY', 'DR. MANUEL BELGRANO', 'SAN SALVADOR DE JUJUY', '2024-11-21 13:10:39', '2024-11-21 13:10:39', NULL),
+(1, '186', 'LAMAS', 'SANTIAGO', 'TACITA DE PLATA', 6, 14, NULL, '3884321268', NULL, NULL, NULL, '20139999844', 'URDININEA 278', 1, '10', '1010', '101019', 'JUJUY', 'DR. MANUEL BELGRANO', 'SAN SALVADOR DE JUJUY', '2024-11-21 13:10:39', '2025-01-17 13:53:22', NULL),
+(2, '46', 'CAMPANILE', 'WALTER', 'PRONTO CUCCINA', 6, 23, NULL, '3884614000', NULL, NULL, NULL, '23256438429', 'TTE TUCO ESQUINA DAVILA 896', 1, '10', '1010', '101019', 'JUJUY', 'DR. MANUEL BELGRANO', 'SAN SALVADOR DE JUJUY', '2024-11-21 13:10:39', '2025-01-17 13:53:49', NULL),
 (3, '1453', 'LAGORIA', 'HECTOR ', 'TAZ', 6, NULL, NULL, '3885896179', NULL, NULL, NULL, '20235810175', 'Alvear', 1, '10', '1010', '101019', 'JUJUY', 'DR. MANUEL BELGRANO', 'SAN SALVADOR DE JUJUY', '2024-11-21 13:10:39', '2024-11-21 13:10:39', NULL),
 (4, '1422', 'PINTO', NULL, 'COMEDOR  PINTO', 5, NULL, NULL, '', NULL, NULL, NULL, '11111111', 'MORENO', 1, '10', '1010', '101019', 'JUJUY', 'DR. MANUEL BELGRANO', 'SAN SALVADOR DE JUJUY', '2024-11-21 13:10:39', '2024-11-21 13:10:39', NULL),
 (5, '58', 'SANDOVAL', 'DARIO RODOLFO', 'GALDO CAFE', 6, NULL, NULL, '', NULL, NULL, NULL, '20286469125', 'PLAZA BELGRANO', 1, '10', '1010', '101019', 'JUJUY', 'DR. MANUEL BELGRANO', 'SAN SALVADOR DE JUJUY', '2024-11-21 13:10:39', '2024-11-21 13:10:39', NULL),
@@ -1535,12 +1549,13 @@ INSERT INTO `clients` (`id`, `code`, `surname`, `name`, `razon_social`, `client_
 (2572, '1528', NULL, NULL, 'Z -ELENA CRUZ', 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'SAN ISIDRO', 1, '10', '1010', '101019', 'JUJUY', 'DR. MANUEL BELGRANO', 'SAN SALVADOR DE JUJUY', '2024-12-23 12:05:21', '2024-12-26 15:59:47', NULL),
 (2573, '253', NULL, NULL, 'JUJUY - COMEDOR INES', 5, NULL, '3885048224', NULL, NULL, NULL, NULL, NULL, 'PALPALA B6', 1, '10', '1013', NULL, 'JUJUY', 'PALPALA', NULL, '2025-01-15 15:12:59', '2025-01-15 15:14:51', NULL),
 (2574, '170', NULL, NULL, 'JUJUY - MENDEZ GIMENA', 5, NULL, '3886075210', NULL, NULL, NULL, NULL, NULL, 'BARRIONUEVO ESQ UNDIANO - ALTO COMEDERO', 1, '10', '1010', '101019', 'JUJUY', 'DR. MANUEL BELGRANO', 'SAN SALVADOR DE JUJUY', '2025-01-15 15:14:26', '2025-01-15 15:14:26', NULL),
-(2575, '982', NULL, NULL, 'JUJUY - CRUZ YESICA', 5, NULL, NULL, '3886828205', NULL, NULL, NULL, NULL, 'Mza 387 lote 18 B6', 1, '10', '1010', '101019', 'JUJUY', 'DR. MANUEL BELGRANO', 'SAN SALVADOR DE JUJUY', '2025-01-15 16:13:33', '2025-01-15 16:17:00', NULL);
+(2575, '982', NULL, NULL, 'JUJUY - CRUZ YESICA', 5, NULL, NULL, '3886828205', NULL, NULL, NULL, NULL, 'Mza 387 lote 18 B6', 1, '10', '1010', '101019', 'JUJUY', 'DR. MANUEL BELGRANO', 'SAN SALVADOR DE JUJUY', '2025-01-15 16:13:33', '2025-01-15 16:17:00', NULL),
+(2576, '985', NULL, NULL, 'JUJUY - CORIMAYO YOLANDA', 5, NULL, NULL, '3884465900', NULL, NULL, NULL, NULL, 'MZA AP44 LOTE 27 TUPAC', 1, '10', '1010', '101019', 'JUJUY', 'DR. MANUEL BELGRANO', 'SAN SALVADOR DE JUJUY', '2025-01-17 11:57:17', '2025-01-17 11:57:17', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `client_segments`
+-- Estructura de tabla para la tabla `client_segments`
 --
 
 CREATE TABLE `client_segments` (
@@ -1553,7 +1568,7 @@ CREATE TABLE `client_segments` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `client_segments`
+-- Volcado de datos para la tabla `client_segments`
 --
 
 INSERT INTO `client_segments` (`id`, `name`, `state`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -1564,7 +1579,7 @@ INSERT INTO `client_segments` (`id`, `name`, `state`, `created_at`, `updated_at`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `employee_functions`
+-- Estructura de tabla para la tabla `employee_functions`
 --
 
 CREATE TABLE `employee_functions` (
@@ -1577,7 +1592,7 @@ CREATE TABLE `employee_functions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `employee_functions`
+-- Volcado de datos para la tabla `employee_functions`
 --
 
 INSERT INTO `employee_functions` (`id`, `name`, `state`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -1593,7 +1608,7 @@ INSERT INTO `employee_functions` (`id`, `name`, `state`, `created_at`, `updated_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `empresas`
+-- Estructura de tabla para la tabla `empresas`
 --
 
 CREATE TABLE `empresas` (
@@ -1606,7 +1621,7 @@ CREATE TABLE `empresas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `empresas`
+-- Volcado de datos para la tabla `empresas`
 --
 
 INSERT INTO `empresas` (`id`, `razon_social`, `cuit`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -1615,7 +1630,7 @@ INSERT INTO `empresas` (`id`, `razon_social`, `cuit`, `created_at`, `updated_at`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `failed_jobs`
+-- Estructura de tabla para la tabla `failed_jobs`
 --
 
 CREATE TABLE `failed_jobs` (
@@ -1631,7 +1646,7 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `migrations`
+-- Estructura de tabla para la tabla `migrations`
 --
 
 CREATE TABLE `migrations` (
@@ -1641,7 +1656,7 @@ CREATE TABLE `migrations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `migrations`
+-- Volcado de datos para la tabla `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
@@ -1654,7 +1669,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `model_has_permissions`
+-- Estructura de tabla para la tabla `model_has_permissions`
 --
 
 CREATE TABLE `model_has_permissions` (
@@ -1666,7 +1681,7 @@ CREATE TABLE `model_has_permissions` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `model_has_roles`
+-- Estructura de tabla para la tabla `model_has_roles`
 --
 
 CREATE TABLE `model_has_roles` (
@@ -1676,7 +1691,7 @@ CREATE TABLE `model_has_roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `model_has_roles`
+-- Volcado de datos para la tabla `model_has_roles`
 --
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
@@ -1707,7 +1722,7 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `password_reset_tokens`
+-- Estructura de tabla para la tabla `password_reset_tokens`
 --
 
 CREATE TABLE `password_reset_tokens` (
@@ -1719,7 +1734,7 @@ CREATE TABLE `password_reset_tokens` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `permissions`
+-- Estructura de tabla para la tabla `permissions`
 --
 
 CREATE TABLE `permissions` (
@@ -1731,7 +1746,7 @@ CREATE TABLE `permissions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `permissions`
+-- Volcado de datos para la tabla `permissions`
 --
 
 INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
@@ -1775,7 +1790,7 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at
 -- --------------------------------------------------------
 
 --
--- Table structure for table `personal_access_tokens`
+-- Estructura de tabla para la tabla `personal_access_tokens`
 --
 
 CREATE TABLE `personal_access_tokens` (
@@ -1794,7 +1809,7 @@ CREATE TABLE `personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `products`
+-- Estructura de tabla para la tabla `products`
 --
 
 CREATE TABLE `products` (
@@ -1812,10 +1827,17 @@ CREATE TABLE `products` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `products`
+--
+
+INSERT INTO `products` (`id`, `code`, `name`, `description`, `type`, `category_id`, `subcategory_id`, `warehouse_id`, `provider_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'asd', 'asd', 'asd', NULL, 1, 2, 1, 5, '2025-01-17 19:13:44', '2025-01-17 19:13:44', NULL);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `providers`
+-- Estructura de tabla para la tabla `providers`
 --
 
 CREATE TABLE `providers` (
@@ -1843,7 +1865,7 @@ CREATE TABLE `providers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `providers`
+-- Volcado de datos para la tabla `providers`
 --
 
 INSERT INTO `providers` (`id`, `code`, `surname`, `name`, `razon_social`, `phone`, `celular`, `email`, `n_document`, `cuit`, `address`, `state`, `ubigeo_provincia`, `ubigeo_departamento`, `ubigeo_localidad`, `provincia`, `departamento`, `localidad`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -1856,7 +1878,7 @@ INSERT INTO `providers` (`id`, `code`, `surname`, `name`, `razon_social`, `phone
 -- --------------------------------------------------------
 
 --
--- Table structure for table `roles`
+-- Estructura de tabla para la tabla `roles`
 --
 
 CREATE TABLE `roles` (
@@ -1868,7 +1890,7 @@ CREATE TABLE `roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `roles`
+-- Volcado de datos para la tabla `roles`
 --
 
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
@@ -1890,7 +1912,7 @@ INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VAL
 -- --------------------------------------------------------
 
 --
--- Table structure for table `role_has_permissions`
+-- Estructura de tabla para la tabla `role_has_permissions`
 --
 
 CREATE TABLE `role_has_permissions` (
@@ -1899,7 +1921,7 @@ CREATE TABLE `role_has_permissions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `role_has_permissions`
+-- Volcado de datos para la tabla `role_has_permissions`
 --
 
 INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
@@ -2052,7 +2074,7 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `subcategories`
+-- Estructura de tabla para la tabla `subcategories`
 --
 
 CREATE TABLE `subcategories` (
@@ -2065,10 +2087,20 @@ CREATE TABLE `subcategories` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `subcategories`
+--
+
+INSERT INTO `subcategories` (`id`, `name`, `description`, `category_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'rubro111A', 'rubro111', 1, '2025-01-17 19:06:42', '2025-01-17 19:07:53', '2025-01-17 19:07:53'),
+(2, 'sub12', 'sub12', 1, '2025-01-17 19:07:45', '2025-01-17 19:07:45', NULL),
+(3, '231', '231', 2, '2025-01-17 19:08:12', '2025-01-17 19:08:12', NULL),
+(4, 'EFTGFDGFDG', 'DFGDFGDF', 1, '2025-01-17 19:10:02', '2025-01-17 19:10:02', NULL);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sucursales`
+-- Estructura de tabla para la tabla `sucursales`
 --
 
 CREATE TABLE `sucursales` (
@@ -2097,7 +2129,7 @@ CREATE TABLE `sucursales` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Estructura de tabla para la tabla `users`
 --
 
 CREATE TABLE `users` (
@@ -2124,7 +2156,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `users`
+-- Volcado de datos para la tabla `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `surname`, `document`, `email`, `email_verified_at`, `password`, `date_entry`, `remember_token`, `created_at`, `updated_at`, `deleted_at`, `is_user`, `jobcode`, `address`, `phone`, `cell`, `code`, `empresa_id`, `role_id`) VALUES
@@ -2135,7 +2167,7 @@ INSERT INTO `users` (`id`, `name`, `surname`, `document`, `email`, `email_verifi
 (42, 'Yesica', 'Lima', NULL, 'yesica.lima32@gmail.com', NULL, '$2y$12$ukP.CnT924491s81U/FoLuJ8ZtiCutJ4B.O.3X6fAdA5C9Pw8M5US', '2024-11-01 03:00:00', NULL, '2024-11-27 17:16:14', '2024-11-27 17:16:14', NULL, 1, NULL, NULL, NULL, NULL, NULL, 1, 12),
 (43, 'Ricardo', 'Tamer', NULL, 'informesavicola@gmail.com', NULL, '$2y$12$OY/HJcJnvKcwtDY3hqid7uIQLIojyFgEOhWrPitZb5N6Gmsm9TT8u', '2024-11-01 03:00:00', NULL, '2024-11-27 17:30:51', '2024-11-27 17:30:51', NULL, 1, NULL, NULL, NULL, NULL, NULL, 1, 15),
 (44, 'Noelia', 'Nieto', NULL, 'noe.avicolatorrejonsrl@gmail.com', NULL, '$2y$12$ViENcawRfO3W39hJo/FcbuAQA0ijOVwEFb6V8LhCvmmBe3ieeGhBy', '2024-11-01 03:00:00', NULL, '2024-11-27 17:35:21', '2024-11-27 17:35:21', NULL, 1, NULL, NULL, NULL, NULL, NULL, 1, 16),
-(45, 'Rene', 'Maizares', NULL, 'ventastorrejon.rene@gmail.com', NULL, '$2y$12$HV48Bj/GpqmXuzsV5hdu4.IT25azE5H.VCKNSVxVIKYhKrxIGTcqO', '2024-11-01 03:00:00', NULL, '2024-11-27 21:13:38', '2024-12-03 17:37:35', NULL, 0, NULL, NULL, NULL, NULL, 3, 1, 11),
+(45, 'Rene', 'Maizares', NULL, 'ventastorrejon.rene@gmail.com', NULL, '$2y$12$lcADQpmK713zponMMHAt3.OwLlLphCKh/cJSDVOfHdKLQdBVnFC9u', '2024-11-01 03:00:00', NULL, '2024-11-27 21:13:38', '2025-01-17 16:57:43', NULL, 0, NULL, NULL, NULL, NULL, 3, 1, 11),
 (46, 'Celeste', 'Sanchez', NULL, 'ventasceleste.avicolatorrejon@gmail.com', NULL, '$2y$12$jj2Pbexh11K.n9132uXvmudtUaok5NBk7Ok/eGI0ZBBGQ1MLypfZ6', '2024-11-01 03:00:00', NULL, '2024-11-27 21:15:14', '2024-12-03 17:37:49', NULL, 0, NULL, NULL, NULL, NULL, 4, 1, 11),
 (47, 'Carlos', 'Salva', NULL, 'ventasramal.avicolatorrejon@gmail.com', NULL, '$2y$12$gWRTkC/ipcUiBG0/lA7.1.fm1PqhYUOd1yiQeXNrcozqiGZqoHbI2', '2024-11-01 03:00:00', NULL, '2024-11-27 21:16:37', '2024-12-03 17:38:03', NULL, 0, NULL, NULL, NULL, NULL, 5, 1, 11),
 (48, 'Ezequiel', 'Salva', NULL, 'ventasperico.avicolatorrejon@gmail.com', NULL, '$2y$12$3.4oIv.uJfA4hiKXoBGgl.MgZ/dicfPx3QLfzLy3O8C8qPGZuiMPa', '2024-11-01 03:00:00', NULL, '2024-11-27 21:17:22', '2024-12-03 17:38:27', NULL, 0, NULL, NULL, NULL, NULL, 6, 1, 11),
@@ -2144,12 +2176,12 @@ INSERT INTO `users` (`id`, `name`, `surname`, `document`, `email`, `email_verifi
 (51, 'Diego', 'Diaz', NULL, 'ventasavicolatorrejon@gmail.com', NULL, '$2y$12$yfWN0mCEJiQbgQnSs/i3rOpkjxRnAmUiOeSql/f2lao.UeCSHS8ZW', '2024-11-01 03:00:00', NULL, '2024-11-27 21:20:15', '2024-12-03 17:39:34', NULL, 0, NULL, NULL, NULL, NULL, 8, 1, 11),
 (52, 'Sebatian', 'Pereyra', NULL, 'avicolatorrejonventas@gmail.com', NULL, '$2y$12$a3HcZjF2aKN3gQdZ/2mcqOjCB/q1pBUSxUtM7GJxWb5n0vmou/cVS', '2024-11-01 03:00:00', NULL, '2024-11-27 21:23:43', '2024-11-27 21:23:43', NULL, 1, NULL, NULL, NULL, NULL, NULL, 1, 17),
 (53, 'Facundo', 'Espinoza', NULL, 'facundoespinosa54321@gmail.com', NULL, '$2y$12$Qon6aYh8yPyEn3/GvArENuS8Kv8kW8pgsYXmfH2EQGu21gOLI.dPm', '2024-11-01 03:00:00', NULL, '2024-11-27 21:26:55', '2024-11-27 21:26:55', NULL, 1, NULL, NULL, NULL, NULL, NULL, 1, 9),
-(54, 'Facundo', 'Cruz', NULL, 'facu21mamani@gmail.com', NULL, '$2y$12$97A6XV1o/RlUIomOtuSrdOSGqCeeOw6.OXPMWiAnsdlTNQeXB9y1e', '2024-11-01 03:00:00', NULL, '2024-11-27 21:29:30', '2024-11-27 21:29:30', NULL, 1, NULL, NULL, NULL, NULL, NULL, 1, 9);
+(54, 'Facundo', 'Cruz', NULL, 'facu21mamani@gmail.com', NULL, '$2y$12$97A6XV1o/RlUIomOtuSrdOSGqCeeOw6.OXPMWiAnsdlTNQeXB9y1e', '2024-11-01 03:00:00', NULL, '2024-11-27 21:29:30', '2025-01-17 18:52:45', NULL, 1, NULL, NULL, NULL, NULL, NULL, 1, 9);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `warehouses`
+-- Estructura de tabla para la tabla `warehouses`
 --
 
 CREATE TABLE `warehouses` (
@@ -2163,10 +2195,18 @@ CREATE TABLE `warehouses` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `warehouses`
+--
+
+INSERT INTO `warehouses` (`id`, `name`, `address`, `phone`, `empresa_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'CASA CENTRAL', 'IRIARTE 525', '3885062735', 1, '2025-01-17 17:02:37', '2025-01-17 17:02:37', NULL),
+(2, 'FDSFSADFSDAFDSAF', NULL, NULL, 1, '2025-01-17 19:10:41', '2025-01-17 19:10:45', '2025-01-17 19:10:45');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `zonas`
+-- Estructura de tabla para la tabla `zonas`
 --
 
 CREATE TABLE `zonas` (
@@ -2181,7 +2221,7 @@ CREATE TABLE `zonas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `zonas`
+-- Volcado de datos para la tabla `zonas`
 --
 
 INSERT INTO `zonas` (`id`, `name`, `location`, `description`, `state`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -2272,11 +2312,11 @@ INSERT INTO `zonas` (`id`, `name`, `location`, `description`, `state`, `created_
 (93, 'LA ODIJ', 'ALTO COMEDERO SUR', NULL, 1, '2025-01-08 19:16:16', '2025-01-08 19:16:16', NULL);
 
 --
--- Indexes for dumped tables
+-- Índices para tablas volcadas
 --
 
 --
--- Indexes for table `accounts`
+-- Indices de la tabla `accounts`
 --
 ALTER TABLE `accounts`
   ADD PRIMARY KEY (`id`),
@@ -2285,7 +2325,19 @@ ALTER TABLE `accounts`
   ADD UNIQUE KEY `ubc_UNIQUE` (`ubc`);
 
 --
--- Indexes for table `clients`
+-- Indices de la tabla `banks`
+--
+ALTER TABLE `banks`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `clients`
 --
 ALTER TABLE `clients`
   ADD PRIMARY KEY (`id`),
@@ -2295,65 +2347,65 @@ ALTER TABLE `clients`
   ADD UNIQUE KEY `cuit` (`cuit`);
 
 --
--- Indexes for table `client_segments`
+-- Indices de la tabla `client_segments`
 --
 ALTER TABLE `client_segments`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `employee_functions`
+-- Indices de la tabla `employee_functions`
 --
 ALTER TABLE `employee_functions`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `empresas`
+-- Indices de la tabla `empresas`
 --
 ALTER TABLE `empresas`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `failed_jobs`
+-- Indices de la tabla `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
--- Indexes for table `migrations`
+-- Indices de la tabla `migrations`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `model_has_permissions`
+-- Indices de la tabla `model_has_permissions`
 --
 ALTER TABLE `model_has_permissions`
   ADD PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
   ADD KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`);
 
 --
--- Indexes for table `model_has_roles`
+-- Indices de la tabla `model_has_roles`
 --
 ALTER TABLE `model_has_roles`
   ADD PRIMARY KEY (`role_id`,`model_id`,`model_type`),
   ADD KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`);
 
 --
--- Indexes for table `password_reset_tokens`
+-- Indices de la tabla `password_reset_tokens`
 --
 ALTER TABLE `password_reset_tokens`
   ADD PRIMARY KEY (`email`);
 
 --
--- Indexes for table `permissions`
+-- Indices de la tabla `permissions`
 --
 ALTER TABLE `permissions`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `permissions_name_guard_name_unique` (`name`,`guard_name`);
 
 --
--- Indexes for table `personal_access_tokens`
+-- Indices de la tabla `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
   ADD PRIMARY KEY (`id`),
@@ -2361,7 +2413,13 @@ ALTER TABLE `personal_access_tokens`
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
--- Indexes for table `providers`
+-- Indices de la tabla `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `providers`
 --
 ALTER TABLE `providers`
   ADD PRIMARY KEY (`id`),
@@ -2371,34 +2429,34 @@ ALTER TABLE `providers`
   ADD UNIQUE KEY `cuit` (`cuit`);
 
 --
--- Indexes for table `roles`
+-- Indices de la tabla `roles`
 --
 ALTER TABLE `roles`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `roles_name_guard_name_unique` (`name`,`guard_name`);
 
 --
--- Indexes for table `role_has_permissions`
+-- Indices de la tabla `role_has_permissions`
 --
 ALTER TABLE `role_has_permissions`
   ADD PRIMARY KEY (`permission_id`,`role_id`),
   ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
 
 --
--- Indexes for table `subcategories`
+-- Indices de la tabla `subcategories`
 --
 ALTER TABLE `subcategories`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `sucursales`
+-- Indices de la tabla `sucursales`
 --
 ALTER TABLE `sucursales`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `code` (`code`);
 
 --
--- Indexes for table `users`
+-- Indices de la tabla `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
@@ -2408,135 +2466,153 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `jobcode_UNIQUE` (`jobcode`);
 
 --
--- Indexes for table `warehouses`
+-- Indices de la tabla `warehouses`
 --
 ALTER TABLE `warehouses`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `zonas`
+-- Indices de la tabla `zonas`
 --
 ALTER TABLE `zonas`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT for table `accounts`
+-- AUTO_INCREMENT de la tabla `accounts`
 --
 ALTER TABLE `accounts`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `clients`
+-- AUTO_INCREMENT de la tabla `banks`
 --
-ALTER TABLE `clients`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2576;
+ALTER TABLE `banks`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `client_segments`
+-- AUTO_INCREMENT de la tabla `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `clients`
+--
+ALTER TABLE `clients`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2577;
+
+--
+-- AUTO_INCREMENT de la tabla `client_segments`
 --
 ALTER TABLE `client_segments`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `employee_functions`
+-- AUTO_INCREMENT de la tabla `employee_functions`
 --
 ALTER TABLE `employee_functions`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `empresas`
+-- AUTO_INCREMENT de la tabla `empresas`
 --
 ALTER TABLE `empresas`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `failed_jobs`
+-- AUTO_INCREMENT de la tabla `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `migrations`
+-- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `permissions`
+-- AUTO_INCREMENT de la tabla `permissions`
 --
 ALTER TABLE `permissions`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
--- AUTO_INCREMENT for table `personal_access_tokens`
+-- AUTO_INCREMENT de la tabla `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `providers`
+-- AUTO_INCREMENT de la tabla `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `providers`
 --
 ALTER TABLE `providers`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `roles`
+-- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
--- AUTO_INCREMENT for table `subcategories`
+-- AUTO_INCREMENT de la tabla `subcategories`
 --
 ALTER TABLE `subcategories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `sucursales`
+-- AUTO_INCREMENT de la tabla `sucursales`
 --
 ALTER TABLE `sucursales`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
--- AUTO_INCREMENT for table `warehouses`
+-- AUTO_INCREMENT de la tabla `warehouses`
 --
 ALTER TABLE `warehouses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `zonas`
+-- AUTO_INCREMENT de la tabla `zonas`
 --
 ALTER TABLE `zonas`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
--- Constraints for dumped tables
+-- Restricciones para tablas volcadas
 --
 
 --
--- Constraints for table `model_has_permissions`
+-- Filtros para la tabla `model_has_permissions`
 --
 ALTER TABLE `model_has_permissions`
   ADD CONSTRAINT `model_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `model_has_roles`
+-- Filtros para la tabla `model_has_roles`
 --
 ALTER TABLE `model_has_roles`
   ADD CONSTRAINT `model_has_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `role_has_permissions`
+-- Filtros para la tabla `role_has_permissions`
 --
 ALTER TABLE `role_has_permissions`
   ADD CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
