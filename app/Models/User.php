@@ -4,8 +4,9 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Configuration\EmployeeFunction;
 use App\Models\Configuration\Empresa;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Models\Configuration\Zona;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -20,6 +21,8 @@ class User extends Authenticatable implements JWTSubject
     use HasApiTokens, HasFactory, Notifiable;
     use HasRoles;
     use SoftDeletes;
+
+    const FUNCTIONS_ID_WITH_ZONA = [1, 2, 3];
 
     /**
      * The attributes that are mass assignable.
@@ -41,7 +44,8 @@ class User extends Authenticatable implements JWTSubject
         'is_user',
         'role_id',
         'empresa_id',
-        'zone_id',
+        'employee_function_id',
+        'zona_id',
     ];
 
     /**
@@ -78,6 +82,16 @@ class User extends Authenticatable implements JWTSubject
     public function empresa()
     {
         return $this->belongsTo(Empresa::class);
+    }
+
+    public function employee_function() 
+    {
+        return $this->belongsTo(EmployeeFunction::class);
+    }
+
+    public function zona() 
+    {
+        return $this->belongsTo(Zona::class);
     }
 
     /**

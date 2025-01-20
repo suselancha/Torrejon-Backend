@@ -2,11 +2,14 @@
 
 namespace App\Http\Requests\User;
 
+use App\Models\Configuration\Zona;
 use App\Models\User;
+use App\Rules\ZonaIdRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -38,6 +41,24 @@ class UpdateRequest extends FormRequest
             'cell'      => 'nullable|string|numeric|min_digits:7|max_digits:15',
             'code'      => 'nullable|numeric|min_digits:1|max_digits:4|unique:users,code,'.$this->user->id,
             'role_id'   => 'required|integer|exists:roles,id',
+            'employee_function_id'   => 'required|integer|exists:employee_functions,id',
+            'zona_id'   => [
+                function($attribute, $value, $fail) {
+                    $functions_with_zona = User::FUNCTIONS_ID_WITH_ZONA;
+                    $employee_function_id = $this->input('employee_function_id');
+                    if (in_array($employee_function_id, $functions_with_zona)) {                        
+                        if(empty($value)) {
+                            $fail('Zona es un campo oblilgatorio.');
+                        }
+                        else {
+                            $zonas = Zona::all();
+                            if(!$zonas->contains($value)){
+                                $fail('La zona seleccionada no exite.');
+                            }
+                        }
+                    }
+                },
+            ]
         ];
     }
 
@@ -55,7 +76,13 @@ class UpdateRequest extends FormRequest
         return [
             'is_user.required'  => 'El tipo de usuario es requerido.',
             'is_user.numeric'   => 'El tipo de usuario debe ser numerico.',
-            'is_user.digits'    => 'El tipo de usuario es de tipo logico.',
+            'is_user.digits'    => 'El tipo de usuario no es válido.',
+            'role_id.required'      => 'El Rol es un campo obligatorio.',
+            'role_id.integer'       => 'El Rol no es valido',
+            'role_id.exists'        => 'El Rol seleccionado no exite.',
+            'employee_function_id.required'      => 'La funcion del empleado es un campo obligatorio.',
+            'employee_function_id.integer'       => 'La funcion del empleado no es valido',
+            'employee_function_id.exists'        => 'La funcion de empleado seleccionada no exite.',            
         ]; 
     }
 }

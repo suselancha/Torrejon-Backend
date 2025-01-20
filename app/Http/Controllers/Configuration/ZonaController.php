@@ -72,17 +72,22 @@ class ZonaController extends Controller
     public function update(Request $request, string $id)
     {
         $is_exits_zona = Zona::where("name",$request->name)
-                                    ->where("id","<>",$id)->first();
+                                    ->where("id","<>",$id)
+                                    ->whereNotNull("deleted_at")
+                                    ->first();
         if($is_exits_zona){
             return response()->json([
-                "message" => 403,
-                "message_text" => "El nombre de la zona ya existe"
+                "success" => false,
+                "message" => "El nombre de la zona ya existe",
+                "status" => 403,
             ]);
         }
         $zona = Zona::findOrFail($id);
         $zona->update($request->all());
         return response()->json([
-            "message" => 200,
+            "success" => true,
+            "message" => 'Zona actualizada exitosamente',
+            "status"  => 200,
             "zona" => [
                 "id" => $zona->id,
                 "name" => $zona->name,
@@ -99,10 +104,27 @@ class ZonaController extends Controller
      */
     public function destroy(string $id)
     {
+        //Encuentra el modelo que quiero eliminar
         $zona = Zona::findOrFail($id);
+            
+        //Verifica si tengo modelos asociados
+        if($zona->clients()->count() > 0 || $zona->sucursales()->count() > 0) {
+            $response=[
+                'success' => false,
+                'message' => 'No se puede eliminar, porque tiene clientes o sucursales asociados.',
+                'status' => 200
+            ];
+            return response()->json($response, 200);
+        }
+
+        //Si no tiene modelos hijos, elimino el modelo
         $zona->delete();
+
         return response()->json([
-            "message" => 200,
+            'success'   => true,
+            'message'   => 'Zona eliminada exitosamente',
+            'status'    => 200,
+            'zona'  => $zona
         ]);
     }
 }

@@ -2311,6 +2311,20 @@ INSERT INTO `zonas` (`id`, `name`, `location`, `description`, `state`, `created_
 (92, '10 H.', 'ALTO COMEDERO SUR', NULL, 1, '2025-01-08 19:16:01', '2025-01-08 19:16:01', NULL),
 (93, 'LA ODIJ', 'ALTO COMEDERO SUR', NULL, 1, '2025-01-08 19:16:16', '2025-01-08 19:16:16', NULL);
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `regions`
+--
+CREATE TABLE `crm_erp_admin`.`regions` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(255) NULL,
+  `created_at` TIMESTAMP NULL,
+  `updated_at` TIMESTAMP NULL,
+  `deleted_at` TIMESTAMP NULL,
+  PRIMARY KEY (`id`));
+
 --
 -- Índices para tablas volcadas
 --
@@ -2622,3 +2636,16 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+--
+-- Agrega a tabla users (empleados) la clave de employee_functions (funcion)
+--
+ALTER TABLE `crm_erp_admin`.`users` 
+ADD COLUMN `employee_function_id` BIGINT UNSIGNED NOT NULL AFTER `role_id`;
+
+--
+-- Agrega a tabla users (empleados) la clave de zona (zona_id)
+--
+ALTER TABLE `crm_erp_admin`.`users` 
+ADD COLUMN `zona_id` BIGINT UNSIGNED NULL DEFAULT NULL AFTER `employee_function_id`;
+
