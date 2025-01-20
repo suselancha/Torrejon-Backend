@@ -2649,3 +2649,8 @@ ADD COLUMN `employee_function_id` BIGINT UNSIGNED NOT NULL AFTER `role_id`;
 ALTER TABLE `crm_erp_admin`.`users` 
 ADD COLUMN `zona_id` BIGINT UNSIGNED NULL DEFAULT NULL AFTER `employee_function_id`;
 
+--
+-- Agrega a tabla zonas (empleados) la clave de region (region_id)
+--
+ALTER TABLE `crm_erp_admin`.`zonas` 
+ADD COLUMN `region_id` BIGINT UNSIGNED NULL DEFAULT NULL AFTER `deleted_at`;

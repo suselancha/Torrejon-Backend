@@ -3,6 +3,7 @@
 namespace App\Models\Configuration;
 
 use App\Models\Client\Client;
+use App\Models\Region\Region;
 use App\Models\Sucursale\Sucursale;
 use App\Models\User;
 use Carbon\Carbon;
@@ -14,11 +15,13 @@ class Zona extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    
     protected $fillable = [
         "name",
         "location",
         "description",
         "state",
+        "region_id"
     ];
 
     public function setCreatedAtAttribute($value) {
@@ -41,5 +44,9 @@ class Zona extends Model
 
     public function users() {
         return $this->hasMany((User::class));
+    }
+
+    public function region() {
+        return $this->belongsTo(Region::class);
     }
 }

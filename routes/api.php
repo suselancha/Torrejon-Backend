@@ -7,6 +7,7 @@ use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Configuration\BankController;
 use App\Http\Controllers\Configuration\ClientSegmentController;
 use App\Http\Controllers\Configuration\EmployeeFunctionController;
+use App\Http\Controllers\Configuration\RegionController;
 use App\Http\Controllers\Configuration\ZonaController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Provider\ProviderController;
@@ -55,6 +56,7 @@ Route::group([
 
     Route::resource('employee_functions', EmployeeFunctionController::class);
     Route::resource('client_segments', ClientSegmentController::class);
+    Route::get('zonas/config', [ZonaController::class, 'config']);
     Route::resource('zonas', ZonaController::class);
 
     Route::post('clients/index', [ClientController::class, 'index']);
@@ -79,5 +81,6 @@ Route::group([
     Route::resource('categories', CategoryController::class);
     Route::get('products/config', [ProductController::class, 'config']);
     Route::resource('products', ProductController::class);
+    Route::resource('regions', RegionController::class);
     Route::resource('warehouses', WarehouseController::class);
 });
