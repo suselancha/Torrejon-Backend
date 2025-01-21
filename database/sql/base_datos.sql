@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `fotoseve_eventos`
+-- Base de datos: `torrejon_crm`
 --
 
 -- --------------------------------------------------------
@@ -2316,7 +2316,7 @@ INSERT INTO `zonas` (`id`, `name`, `location`, `description`, `state`, `created_
 --
 -- Estructura de tabla para la tabla `regions`
 --
-CREATE TABLE `crm_erp_admin`.`regions` (
+CREATE TABLE `torrejon_crm`.`regions` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `description` VARCHAR(255) NULL,
@@ -2640,17 +2640,17 @@ COMMIT;
 --
 -- Agrega a tabla users (empleados) la clave de employee_functions (funcion)
 --
-ALTER TABLE `crm_erp_admin`.`users` 
+ALTER TABLE `torrejon_crm`.`users` 
 ADD COLUMN `employee_function_id` BIGINT UNSIGNED NOT NULL AFTER `role_id`;
 
 --
 -- Agrega a tabla users (empleados) la clave de zona (zona_id)
 --
-ALTER TABLE `crm_erp_admin`.`users` 
+ALTER TABLE `torrejon_crm`.`users` 
 ADD COLUMN `zona_id` BIGINT UNSIGNED NULL DEFAULT NULL AFTER `employee_function_id`;
 
 --
 -- Agrega a tabla zonas (empleados) la clave de region (region_id)
 --
-ALTER TABLE `crm_erp_admin`.`zonas` 
+ALTER TABLE `torrejon_crm`.`zonas` 
 ADD COLUMN `region_id` BIGINT UNSIGNED NULL DEFAULT NULL AFTER `deleted_at`;
