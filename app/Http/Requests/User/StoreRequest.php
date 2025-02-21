@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\User;
 
+use App\Models\Configuration\EmployeeFunction;
+use App\Models\Configuration\Zona;
 use App\Models\User;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -23,7 +25,7 @@ class StoreRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-    {
+    {               
         return [
             'name'      => 'required|string|alpha_spaces|max:255',
             'surname'   => 'required|string|alpha_spaces|max:255',
@@ -39,17 +41,28 @@ class StoreRequest extends FormRequest
             'code'      => 'nullable|unique:users|numeric|min_digits:1|max_digits:4',
             'role_id'   => 'required|integer|exists:roles,id',
             'employee_function_id'   => 'required|integer|exists:employee_functions,id',
-            'zona_id'   => [
-                function($attribute, $value, $fail) {
-                    $functions = User::FUNCTIONS_ID_WITH_ZONA;
-                    $employee_function_id = $this->input('employee_function_id');
-                    if (in_array($employee_function_id, $functions) && empty($value)) {
-                        $fail('Zona es un campo oblilgatorio.');
-                    }
-                },
-                'exists:zonas,id',
-            ]            
+            'zonas'     => 'array',
+            'zonas'     => 'exclude_unless:employee_function_id'.User::REPARTIDOR_ID.','.User::VENDEDOR_ID.','.User::COBRADOR_ID.'|required|array|min:1',
         ];        
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if (in_array($this->employee_function_id, User::FUNCTIONS_ID_WITH_ZONA))
+            {
+                if ($this->filled('zonas')) 
+                {
+                    $invalidZonas = collect($this->zonas)
+                        ->filter(fn($id) => !Zona::where('id', $id)->exists());
+
+                    if ($invalidZonas->isNotEmpty()) 
+                    {
+                        $validator->errors()->add('zonas', 'Uno o más zonas no existen');
+                    }
+                }
+            }
+        });
     }
 
     public function failedValidation(Validator $validator)    
@@ -73,8 +86,7 @@ class StoreRequest extends FormRequest
             'employee_function_id.required'      => 'La funcion del empleado es un campo obligatorio.',
             'employee_function_id.integer'       => 'La funcion del empleado no es valido',
             'employee_function_id.exists'        => 'La funcion de empleado seleccionada no exite.',
-            'zona_id.integer'       => 'La zona no es valido',
-            'zona_id.exists'        => 'La zona seleccionada no exite.',
+            'zonas.required_if'     => 'Las zonas son requeridas cuando el empleado es '.EmployeeFunction::getName($this->employee_function_id),
         ]; 
     }
 

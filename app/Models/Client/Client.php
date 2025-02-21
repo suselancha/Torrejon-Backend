@@ -41,6 +41,18 @@ class Client extends Model
         "zona_id"
     ];
 
+    const COLUMNS = [
+        'Codigo',
+        'Nombre',
+        'Apellido',
+        'Cuit',
+        'Documento',
+        'Zona',
+        'Consumidor Final',
+        'Responsable Inscripto',
+        'Monotributista'       
+    ];
+
     public function setCreatedAtAttribute($value) {
         date_default_timezone_set("America/Argentina/Jujuy");
         $this->attributes["created_at"] = Carbon::now();
@@ -55,25 +67,47 @@ class Client extends Model
         return $this->belongsTo(ClientSegment::class);
     }
     
-    public function scopeFilterAdvance($query, $search, $client_segment_id){
-        if($search){
-            // Búsqueda múltiples campos
-            //$query->where(DB::raw("CONCAT(IFNULL(clients.cuit,''),' ',IFNULL(clients.code,''),' ',IFNULL(clients.n_document,''))"),"like","%".$search."%");
-
-            $query->where('name', 'like', "%$search%")
-            ->orWhere('surname', 'like', "%$search%")
-            ->orWhere('cuit', 'like', "%$search%")
-            ->orWhere('code', 'like', "%$search%")
-            ->orWhere('n_document', 'like', "%$search%")
-            ->orWhereHas('zona', function ($query) use ($search) {
-                $query->where('name', 'like', "%$search%");
-            });
+    public function scopeFilterAdvance($query, $search, $column){
+        if($search)
+        {
+            switch ($column) 
+            {
+                case 1:
+                    $query->where('code', 'like', "%$search%");                    
+                    break;
+                case 2:
+                    $query->where('name', 'like', "%$search%");
+                    break;
+                case 3:
+                    $query->where('surname', 'like', "%$search%");
+                    break;
+                case 4:
+                    $query->where('cuit', 'like', "%$search%");
+                    break;
+                case 5:
+                    $query->where('n_document', 'like', "%$search%");
+                    break;
+                case 6:
+                    $query->whereHas('zona', function ($query) use ($search) {
+                        $query->where('name', 'like', "%$search%");
+                    });
+                    break;
+                case 7:
+                    $query->where('client_segment_id', ClientSegment::CONSUMIDOR_FINAL);
+                    break;
+                case 8:
+                    $query->where('client_segment_id', ClientSegment::RESPONSABLE_INSCRIPTO);
+                    break;
+                case 9:
+                    $query->where('client_segment_id', ClientSegment::MONOTRIBUTISTA);
+                    break;
+            
+                default:
+                    $query->where('code', $search);
+                    break;
+            }
         }
         
-        if($client_segment_id){
-            $query->where("client_segment_id",$client_segment_id);
-        }
-
         return $query;
     }
 

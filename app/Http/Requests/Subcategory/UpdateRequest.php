@@ -28,7 +28,10 @@ class UpdateRequest extends FormRequest
         return [            
             'name' => [
                 'required', 'string', 'max:100', 
-                Rule::unique('subcategories')->whereNull('deleted_at')->ignore($this->subcategory->id)
+                Rule::unique('subcategories')
+                    ->where('category_id', $this->category_id)
+                    ->whereNull('deleted_at')
+                    ->ignore($this->subcategory->id)
             ],
             'description' => 'string|max:255',
             'category_id' => 'required|integer|exists:categories,id',

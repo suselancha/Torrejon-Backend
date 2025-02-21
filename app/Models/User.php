@@ -22,6 +22,9 @@ class User extends Authenticatable implements JWTSubject
     use HasRoles;
     use SoftDeletes;
 
+    const REPARTIDOR_ID = 1;
+    const VENDEDOR_ID = 2;
+    const COBRADOR_ID = 3;
     const FUNCTIONS_ID_WITH_ZONA = [1, 2, 3];
 
     /**
@@ -89,9 +92,9 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(EmployeeFunction::class);
     }
 
-    public function zona() 
+    public function zonas() 
     {
-        return $this->belongsTo(Zona::class);
+        return $this->belongsToMany(Zona::class, 'user_zona');
     }
 
     /**

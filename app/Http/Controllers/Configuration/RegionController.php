@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Configuration;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Region\StoreRequest;
 use App\Http\Requests\Region\UpdateRequest;
+use App\Models\Configuration\Zona;
 use App\Models\Region\Region;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RegionController extends Controller
 {
@@ -26,13 +28,30 @@ class RegionController extends Controller
             }),
         ]);
     }
+    
+    public function show(Region $region)
+    {
+        return response()->json(["region" => $region]);
+    }
+
+    public function config()
+    {
+        $zonas = Zona::all();
+
+        return response()->json([
+            "zonas" => $zonas
+        ]);
+    }
+
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreRequest $request)
     {
-        $region = Region::create($request->all());
+        $region = Region::create($request->only('name', 'description'));
+
+        Zona::whereIn('id', $request->zonas)->update(['region_id' => $region->id]);
         
         return response()->json([
             "success" => true,
@@ -48,6 +67,10 @@ class RegionController extends Controller
     public function update(UpdateRequest $request, Region $region)
     {
         $region->update($request->all());
+
+        Zona::where('region_id', $region->id)->update(['region_id' => null]);
+        
+        Zona::whereIn('id', $request->zonas)->update(['region_id' => $region->id]);
         
         return response()->json([
             "success" => true,
@@ -90,7 +113,8 @@ class RegionController extends Controller
         return [
             "id" => $region->id,
             "name" => $region->name,
-            "description" => $region->description
+            "description" => $region->description,
+            "zonas" => $region->zonas()->select('id', 'name')->get()
         ];
     }
 }

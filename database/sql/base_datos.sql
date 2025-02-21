@@ -2654,3 +2654,32 @@ ADD COLUMN `zona_id` BIGINT UNSIGNED NULL DEFAULT NULL AFTER `employee_function_
 --
 ALTER TABLE `torrejon_crm`.`zonas` 
 ADD COLUMN `region_id` BIGINT UNSIGNED NULL DEFAULT NULL AFTER `deleted_at`;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla pivot `user_zona`
+--
+CREATE TABLE `torrejon_crm`.`user_zona` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` BIGINT UNSIGNED NULL DEFAULT NULL,
+  `zona_id` BIGINT UNSIGNED NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_user_zona_idx` (`user_id` ASC) VISIBLE,
+  INDEX `fk_zona_user_idx` (`zona_id` ASC) VISIBLE,
+  CONSTRAINT `fk_user_zona`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `torrejon_crm`.`users` (`id`)
+    ON DELETE CASCADE,
+  CONSTRAINT `fk_zona_user`
+    FOREIGN KEY (`zona_id`)
+    REFERENCES `torrejon_crm`.`zonas` (`id`)
+    ON DELETE CASCADE);
+
+-- --------------------------------------------------------
+
+--
+-- Alter column 'bank' a 'bank_id'
+--
+ALTER TABLE `torrejon_crm`.`accounts` 
+CHANGE COLUMN `bank` `bank_id` BIGINT UNSIGNED NOT NULL ;

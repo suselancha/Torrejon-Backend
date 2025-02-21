@@ -33,5 +33,8 @@ class EmployeeFunction extends Model
         return $this->hasMany(User::class);
     }
 
-
+    public static function getName($id)
+    {
+        return self::where('id', $id)->value('name');
+    }
 }

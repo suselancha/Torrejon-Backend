@@ -81,6 +81,7 @@ Route::group([
     Route::resource('categories', CategoryController::class);
     Route::get('products/config', [ProductController::class, 'config']);
     Route::resource('products', ProductController::class);
+    Route::get('regions/config', [RegionController::class, 'config']);
     Route::resource('regions', RegionController::class);
     Route::resource('warehouses', WarehouseController::class);
 });

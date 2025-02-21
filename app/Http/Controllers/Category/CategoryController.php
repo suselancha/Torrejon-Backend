@@ -30,7 +30,7 @@ class CategoryController extends Controller
                     "id" => $category->id,
                     "name" => $category->name,
                     "description" => $category->description,
-                    "subcategories" => $category->subcategories->count()
+                    "subcategories" => $category->subcategories
                 ];
             })
         ]);

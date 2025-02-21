@@ -26,11 +26,10 @@ class ClientController extends Controller
 
         // Obtener valor via post
         $search = $request->search;
-        $client_segment_id = $request->client_segment_id;        
+        $column = $request->column;
 
-        //where("full_name","like","%".$search."%")->
-        $clients = Client::filterAdvance($search,$client_segment_id)->orderBy("id","asc")->paginate(25);
-
+        $clients = Client::filterAdvance($search,$column)->orderBy("id","asc")->paginate(25);
+        
         return response()->json([
             "total" => $clients->total(),
             "clients" => ClientCollection::make($clients),
@@ -39,12 +38,12 @@ class ClientController extends Controller
 
     public function config()
     {
-        $client_segments = ClientSegment::where("state",1)->get();
+        $columns = Client::COLUMNS;
 
         $zonas = Zona::all();
 
         return response()->json([
-            "client_segments" => $client_segments,
+            "columns" => $columns,
             "zonas" => $zonas->map(function($zona) {
                 return [
                     "id" => $zona->id,

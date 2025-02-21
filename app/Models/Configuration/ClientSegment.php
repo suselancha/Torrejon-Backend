@@ -11,6 +11,11 @@ class ClientSegment extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    const CONSUMIDOR_FINAL = 5;
+    const RESPONSABLE_INSCRIPTO = 6;
+    const MONOTRIBUTISTA = 7;
+
     protected $fillable = [
         "name",
         "state",
