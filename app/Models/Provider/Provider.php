@@ -4,6 +4,7 @@ namespace App\Models\Provider;
 
 use App\Models\Account\Account;
 use App\Models\Product\Product;
+use App\Models\Stock\StockMovement;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -56,6 +57,11 @@ class Provider extends Model
 
     public function accounts() {
         return $this->morphMany(Account::class, 'accountable');
+    }
+
+    public function stockMovements() 
+    {
+        return $this->morphMany(StockMovement::class, 'personable');
     }
 
     public function products() {

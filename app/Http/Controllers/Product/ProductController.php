@@ -9,9 +9,8 @@ use App\Models\Category\Category;
 use App\Models\Product\Product;
 use App\Models\Provider\Provider;
 use App\Models\Subcategory\Subcategory;
+use App\Models\Unit\Unit;
 use App\Models\Warehouse\Warehouse;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -52,7 +51,8 @@ class ProductController extends Controller
                 'categories' => Category::all(),
                 'subcategories' => Subcategory::all(),
                 'warehouses'    => Warehouse::all(),
-                'providers'     => Provider::all()
+                'providers'     => Provider::all(),
+                'units'         => Unit::all()
             ]);
     }
 

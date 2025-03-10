@@ -2683,3 +2683,66 @@ CREATE TABLE `torrejon_crm`.`user_zona` (
 --
 ALTER TABLE `torrejon_crm`.`accounts` 
 CHANGE COLUMN `bank` `bank_id` BIGINT UNSIGNED NOT NULL ;
+
+-- --------------------------------------------------------
+
+--
+-- Create table 'units'
+--
+CREATE TABLE units (
+    `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(255) NULL,
+    `created_at` TIMESTAMP NULL DEFAULT NULL,
+    `updated_at` TIMESTAMP NULL DEFAULT NULL,
+    `deleted_at` TIMESTAMP NULL DEFAULT NULL    
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+
+--
+-- Volcado de datos para la tabla `units`
+--
+INSERT INTO `units` VALUES (1,'Unidades','2025-03-08 00:17:10','2025-03-08 00:17:10',NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Add unit_id to products table
+--
+ALTER TABLE `torrejon_crm`.`products` 
+ADD COLUMN `unit_id` BIGINT UNSIGNED NULL DEFAULT 1 AFTER `subcategory_id`;
+
+-- --------------------------------------------------------
+
+--
+-- Create product_warehouse table pivot
+--
+CREATE TABLE product_warehouse (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    product_id BIGINT UNSIGNED NOT NULL,
+    warehouse_id BIGINT UNSIGNED NOT NULL,
+    stock INT UNSIGNED NOT NULL DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    FOREIGN KEY (warehouse_id) REFERENCES warehouses(id) ON DELETE CASCADE,
+    UNIQUE (product_id, warehouse_id) -- Asegura que no se duplique la relación
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+
+-- --------------------------------------------------------
+
+--
+-- Create stock_movements table
+--
+CREATE TABLE stock_movements (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    product_id BIGINT UNSIGNED NOT NULL,
+    warehouse_id BIGINT UNSIGNED NOT NULL,
+    personable_id BIGINT UNSIGNED NOT NULL,
+    personable_type VARCHAR(50) NOT NULL, -- Guarda "Client" o "Provider"
+    quantity INT NOT NULL,
+    type ENUM('in', 'out') NOT NULL,
+    description VARCHAR(255) NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    FOREIGN KEY (warehouse_id) REFERENCES warehouses(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci

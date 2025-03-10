@@ -34,9 +34,7 @@ class StoreRequest extends FormRequest
             'description' => 'nullable|string|max:255',
             'category_id' => 'required|integer|exists:categories,id',
             'subcategory_id' => 'required|integer|exists:subcategories,id',
-            'provider_id' => 'required|integer|exists:providers,id',
-            'warehouse_id' => 'required|integer|exists:warehouses,id' 
-            //'type' => 'nullable',
+            'unit_id' => 'required|integer|exists:units,id'
         ];
     }
     
@@ -53,17 +51,14 @@ class StoreRequest extends FormRequest
     {        
         return [
             'category_id.required'      => 'Categoria es un campo obligatorio.',
-            'subcategory_id.required'   => 'Subcategoria es un campo obligatorio.',
-            'provider_id.required'      => 'Proveedor es un campo obligatorio.',
-            'warehouse_id.required'     => 'Almacen es un campo obligatorio.',
+            'subcategory_id.required'   => 'Subcategoria es un campo obligatorio.',            
+            'unit_id.required'          => 'Unidad es un campo obligatorio.',
             'category_id.integer'       => 'Categoria es un campo numerico',
-            'subcategory_id.integer'    => 'Subcategoria es un campo numerico',
-            'provider_id.integer'       => 'Proveedor es un campo numerico',
-            'warehouse_id.integer'      => 'Almacen es un campo numerico',
+            'subcategory_id.integer'    => 'Subcategoria es un campo numerico',            
+            'unit_id.integer'           => 'Unidad es un campo numerico',
             'category_id.exists'        => 'La Categoria no se encuentra registrada.',
-            'subcategory_id.exists'     => 'La Subcategoria no se encuentra registrada.',
-            'provider_id.exists'        => 'El Proveedor no se encuentra registrado.',
-            'warehouse_id.exists'       => 'El Almacen no se encuentra registrado.',
+            'subcategory_id.exists'     => 'La Subcategoria no se encuentra registrada.',            
+            'unit_id.exists'            => 'La unidad no se encuentra registrado.',
         ]; 
     }
 }

@@ -10,6 +10,8 @@ use App\Models\Configuration\Zona;
 use App\Models\User;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Role;
 
 class UserAccessController extends Controller
@@ -126,61 +128,73 @@ class UserAccessController extends Controller
      */
     public function update(UpdateRequest $request, User $user)
     {   
-        $USER_EXISTS = User::where("email", $request->email)
-            ->where("id","<>",$user->id)
-            ->first();
-                
-        if ($USER_EXISTS)
-        {
-            return response()
-                ->json([
-                    'message' => 403,
-                    'message_text' => "El empleado ya existe."
-                ]);
+        try{   
+            $USER_EXISTS = User::where("email", $request->email)
+                ->where("id","<>",$user->id)
+                ->first();
+                    
+            if ($USER_EXISTS)
+            {
+                return response()
+                    ->json([
+                        'message' => 403,
+                        'message_text' => "El empleado ya existe."
+                    ]);
+            }
+
+            $user = User::findOrFail($user->id);
+
+            if($request->password)
+            {
+                $request->request->add(["password" => bcrypt($request->password)]);
+
+                $user->password = $request->password;
+            }
+
+            if($request->role_id != $user->role_id){
+                // Vieja Rol
+                $role_old = Role::findOrFail($user->role_id);
+                $user->removeRole($role_old);
+
+                // Nuevo rol
+                $role = Role::findOrFail($request->role_id);
+                $user->assignRole($role);
+            }
+
+            $user->name = $request->name;
+            $user->surname = $request->surname;
+            $user->document = $request->document;
+            $user->jobcode = $request->jobcode;
+            $user->date_entry = $request->date_entry;
+            $user->phone = $request->phone;
+            $user->cell = $request->cell;
+            $user->code = $request->code;
+            $user->email = $request->email;
+            $user->address = $request->address;
+            $user->is_user = $request->is_user;
+            $user->role_id = $request->role_id;
+            $user->employee_function_id = $request->employee_function_id;
+            $functions_with_zona = User::FUNCTIONS_ID_WITH_ZONA;
+            if (in_array($request->employee_function_id, $functions_with_zona))
+            {
+                $user->zonas()->sync($request->zonas);
+            }else
+            {
+                $user->zonas()->sync([]);
+            }
+
+            $user->update();
+        
+        } catch(\Throwable $th) {
+            DB::rollBack();
+            Log::info($th);
+            $response=[
+                'success' => false,
+                'message' => $th->getMessage(),
+                'status' => 500
+            ];
+            throw new HttpResponseException(response()->json($response, 500));
         }
-
-        $user = User::findOrFail($user->id);
-
-        if($request->password)
-        {
-            $request->request->add(["password" => bcrypt($request->password)]);
-
-            $user->password = $request->password;
-        }
-
-        if($request->role_id != $user->role_id){
-            // Vieja Rol
-            $role_old = Role::findOrFail($user->role_id);
-            $user->removeRole($role_old);
-
-            // Nuevo rol
-            $role = Role::findOrFail($request->role_id);
-            $user->assignRole($role);
-        }
-
-        $user->name = $request->name;
-        $user->surname = $request->surname;
-        $user->document = $request->document;
-        $user->jobcode = $request->jobcode;
-        $user->date_entry = $request->date_entry;
-        $user->phone = $request->phone;
-        $user->cell = $request->cell;
-        $user->code = $request->code;
-        $user->email = $request->email;
-        $user->address = $request->address;
-        $user->is_user = $request->is_user;
-        $user->role_id = $request->role_id;
-        $user->employee_function_id = $request->employee_function_id;
-        $functions_with_zona = User::FUNCTIONS_ID_WITH_ZONA;
-        if (in_array($request->employee_function_id, $functions_with_zona))
-        {
-            $user->zonas()->sync($request->zonas);
-        }else
-        {
-            $user->zonas()->sync([]);
-        }
-
-        $user->update();
 
         return response()
             ->json([

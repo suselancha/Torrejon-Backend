@@ -5,12 +5,9 @@ namespace App\Http\Requests\User;
 use App\Models\Configuration\EmployeeFunction;
 use App\Models\Configuration\Zona;
 use App\Models\User;
-use App\Rules\ZonaIdRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {

@@ -12,8 +12,10 @@ use App\Http\Controllers\Configuration\ZonaController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Provider\ProviderController;
 use App\Http\Controllers\RolePermissionController;
+use App\Http\Controllers\Stock\StockController;
 use App\Http\Controllers\Subcategory\SubcategoryController;
 use App\Http\Controllers\Sucursale\SucursaleController;
+use App\Http\Controllers\Unit\UnitController;
 use App\Http\Controllers\UserAccessController;
 use App\Http\Controllers\Warehouse\WarehouseController;
 use Illuminate\Http\Request;
@@ -84,4 +86,11 @@ Route::group([
     Route::get('regions/config', [RegionController::class, 'config']);
     Route::resource('regions', RegionController::class);
     Route::resource('warehouses', WarehouseController::class);
+    Route::apiResource('units', UnitController::class);
+
+    Route::get('stocks', [StockController::class, 'index']);
+    Route::get('stocks/persons', [StockController::class, 'get_persons']);
+    Route::get('stocks/details/{id}', [StockController::class, 'get_details']);
+    Route::post('stocks/increase', [StockController::class, 'increase']);
+    Route::post('stocks/decrease', [StockController::class, 'decrease']);
 });

@@ -5,6 +5,7 @@ namespace App\Models\Client;
 use App\Models\Account\Account;
 use App\Models\Configuration\ClientSegment;
 use App\Models\Configuration\Zona;
+use App\Models\Stock\StockMovement;
 use App\Models\Sucursale\Sucursale;
 use App\Models\User;
 use Carbon\Carbon;
@@ -127,6 +128,11 @@ class Client extends Model
     public function accounts() 
     {
         return $this->morphMany(Account::class, 'accountable');
+    }
+
+    public function stockMovements() 
+    {
+        return $this->morphMany(StockMovement::class, 'personable');
     }
 
     public function zona()

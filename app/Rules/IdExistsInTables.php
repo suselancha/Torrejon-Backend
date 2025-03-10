@@ -15,6 +15,6 @@ class IdExistsInTables implements Rule
 
     public function message()
     {
-        return 'El titular de la cuenta no se encuentra registrado.';
+        return 'La persona no se encuentra registrada.';
     }
 }
