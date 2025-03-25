@@ -8,6 +8,9 @@ use App\Models\User;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Concerns\ToArray;
 
 class UpdateRequest extends FormRequest
 {
@@ -39,7 +42,11 @@ class UpdateRequest extends FormRequest
             'cell'      => 'nullable|string|numeric|min_digits:7|max_digits:15',
             'code'      => 'nullable|numeric|min_digits:1|max_digits:4|unique:users,code,'.$this->user->id,
             'role_id'   => 'required|integer|exists:roles,id',
-            'employee_function_id'   => 'required|integer|exists:employee_functions,id',
+            'employee_function_id'   => [
+                                            'required',
+                                            'integer',
+                                            Rule::in(array_merge([0], DB::table('employee_functions')->pluck('id')->toArray())),
+            ],                
             'zonas'     => 'exclude_unless:employee_function_id'.User::REPARTIDOR_ID.','.User::VENDEDOR_ID.','.User::COBRADOR_ID.'|required|array|min:1',
         ];
     }
@@ -82,7 +89,7 @@ class UpdateRequest extends FormRequest
             'role_id.exists'        => 'El Rol seleccionado no exite.',
             'employee_function_id.required'      => 'La funcion del empleado es un campo obligatorio.',
             'employee_function_id.integer'       => 'La funcion del empleado no es valido',
-            'employee_function_id.exists'        => 'La funcion de empleado seleccionada no exite.',            
+            'employee_function_id.in'            => 'La funcion de empleado seleccionada no exite.',
             'zonas.required_if'     => 'Las zonas son requeridas cuando el empleado es '.EmployeeFunction::getName($this->employee_function_id),
         ]; 
     }

@@ -173,7 +173,15 @@ class UserAccessController extends Controller
             $user->address = $request->address;
             $user->is_user = $request->is_user;
             $user->role_id = $request->role_id;
-            $user->employee_function_id = $request->employee_function_id;
+            //El empleado quedará sin funcion asignada
+            if ($request->employee_function_id === 0)
+            {
+                $user->employee_function()->dissociate();
+            }else //Se le asignará la funcion que viene en la request
+            {
+                $user->employee_function_id = $request->employee_function_id;
+            }
+            
             $functions_with_zona = User::FUNCTIONS_ID_WITH_ZONA;
             if (in_array($request->employee_function_id, $functions_with_zona))
             {
@@ -191,7 +199,8 @@ class UserAccessController extends Controller
             $response=[
                 'success' => false,
                 'message' => $th->getMessage(),
-                'status' => 500
+                'status' => 500,
+                'request' => $request->all()
             ];
             throw new HttpResponseException(response()->json($response, 500));
         }
